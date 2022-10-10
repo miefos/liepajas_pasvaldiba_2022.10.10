@@ -1,0 +1,19 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\$CLASS_NAME_CAPITALIZED$;
+use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+
+class $CLASS_NAME_PLURAL_CAPITALIZED$TableSeeder extends Seeder
+{
+    public function run()
+    {
+        $CLASS_NAME_CAPITALIZED$::insert([
+            ['name' => 'Data 1'],
+            ['name' => 'Data 2'],
+        ]);
+    }
+}

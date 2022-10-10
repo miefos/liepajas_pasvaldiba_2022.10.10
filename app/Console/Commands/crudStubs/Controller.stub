@@ -1,0 +1,54 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use Illuminate\Support\Facades\Gate;
+use Inertia\Inertia;
+use Symfony\Component\HttpFoundation\Response;
+use App\Http\Controllers\Controller;
+use App\Models\$CLASS_NAME_CAPITALIZED$;
+use App\Http\Requests\MassDestroy$CLASS_NAME_CAPITALIZED$Request;
+use App\Http\Requests\Store$CLASS_NAME_CAPITALIZED$Request;
+use App\Http\Requests\Update$CLASS_NAME_CAPITALIZED$Request;
+
+class $CLASS_NAME_PLURAL_CAPITALIZED$Controller extends Controller
+{
+    public function index()
+    {
+        abort_if(Gate::denies('$CLASS_NAME_TABLEIZED$_read'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $$CLASS_NAME_PLURAL_CAMEL$ = $CLASS_NAME_CAPITALIZED$::all();
+
+        return Inertia::render('$CLASS_NAME_PLURAL_CAPITALIZED$', ['$CLASS_NAME_PLURAL_CAMEL$' => $$CLASS_NAME_PLURAL_CAMEL$]);
+    }
+
+    public function store(Store$CLASS_NAME_CAPITALIZED$Request $request)
+    {
+        $CLASS_NAME_CAPITALIZED$::create($request->all());
+
+        return back()->success(__('common.success.created'));
+    }
+
+    public function update(Update$CLASS_NAME_CAPITALIZED$Request $request, $CLASS_NAME_CAPITALIZED$ $$CLASS_NAME_TABLEIZED$)
+    {
+        $$CLASS_NAME_TABLEIZED$->update($request->all());
+
+        return back()->success(__('common.success.updated'));
+    }
+
+    public function destroy($CLASS_NAME_CAPITALIZED$ $$CLASS_NAME_TABLEIZED$)
+    {
+        abort_if(Gate::denies('$CLASS_NAME_TABLEIZED$_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $$CLASS_NAME_TABLEIZED$->delete();
+
+        return back()->success(__('common.success.deleted'));
+    }
+
+    public function massDestroy(MassDestroy$CLASS_NAME_CAPITALIZED$Request $request)
+    {
+        $CLASS_NAME_CAPITALIZED$::whereIn('id', request('ids'))->delete();
+
+        return back()->success(__('common.success.massDeleted'));
+    }
+}

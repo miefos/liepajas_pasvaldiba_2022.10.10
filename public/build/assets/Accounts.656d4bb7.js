@@ -1,0 +1,1 @@
+import{_ as t,A as e,o as a,c as s,w as n,g as c,r as p}from"./app.f1ef34bf.js";const r={name:"Dashboard",components:{AppLayout:e},props:{}};function _(u,i,l,d,f,m){const o=p("app-layout");return a(),s(o,{title:"Konti"},{default:n(()=>[c(" Konti ")]),_:1})}const $=t(r,[["render",_]]);export{$ as default};

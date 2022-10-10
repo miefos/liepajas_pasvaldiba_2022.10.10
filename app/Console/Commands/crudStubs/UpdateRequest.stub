@@ -1,0 +1,25 @@
+<?php
+
+namespace App\Http\Requests;
+
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Foundation\Http\FormRequest;
+
+class Update$CLASS_NAME_CAPITALIZED$Request extends FormRequest
+{
+    public function authorize()
+    {
+        return Gate::allows('$CLASS_NAME_TABLEIZED$_update');
+    }
+
+    public function rules()
+    {
+        return [
+            'name' => [
+                'string',
+                'required',
+                'unique:$CLASS_NAME_PLURAL_TABLEIZED$,name,' . request()->route('$CLASS_NAME_TABLEIZED$')->id,
+            ],
+        ];
+    }
+}

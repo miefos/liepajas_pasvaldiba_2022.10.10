@@ -1,0 +1,52 @@
+<template>
+    <app-layout>
+        <crud-table
+            :tableData="$CLASS_NAME_PLURAL_CAMEL$"
+            :listings="listings"
+            :columns="columns"
+            :labels="labels"
+            title=""
+            crud-name="$CLASS_NAME_TABLEIZED$"
+            :route-names="routesName"
+        ></crud-table>
+    </app-layout>
+</template>
+
+<script>
+import CrudTable from "@/Layouts/Components/CRUDTable/CrudTable.vue";
+import AppLayout from "@/Layouts/AppLayout.vue";
+
+export default {
+    props: {
+        $CLASS_NAME_PLURAL_CAMEL$: Array,
+        listings: Object,
+    },
+    components: {
+        CrudTable,
+        AppLayout
+    },
+    setup() {
+        const labels = {
+            createHeader: 'Izveidot',
+            editHeader: 'Atjaunot'
+        }
+
+        const routesName = {
+            massDestroy: '$CLASS_NAME_PLURAL_TABLEIZED$.massDestroy',
+            updateSingle: '$CLASS_NAME_PLURAL_TABLEIZED$.update',
+            storeSingle: '$CLASS_NAME_PLURAL_TABLEIZED$.store',
+            singleDestroy: '$CLASS_NAME_PLURAL_TABLEIZED$.destroy'
+        }
+
+        const columns = [
+            {type: 'text', name: 'name', header: 'Nosaukums', sortable: true, searchable: true, required: true},
+        ]
+
+        return {
+            columns,
+            labels,
+            routesName
+        }
+    }
+}
+</script>

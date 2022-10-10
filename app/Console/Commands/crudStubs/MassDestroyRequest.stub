@@ -1,0 +1,25 @@
+<?php
+
+namespace App\Http\Requests;
+
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Foundation\Http\FormRequest;
+use Symfony\Component\HttpFoundation\Response;
+
+class MassDestroy$CLASS_NAME_CAPITALIZED$Request extends FormRequest
+{
+    public function authorize()
+    {
+        abort_if(Gate::denies('$CLASS_NAME_TABLEIZED$_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        return true;
+    }
+
+    public function rules()
+    {
+        return [
+            'ids'   => 'required|array',
+            'ids.*' => 'exists:$CLASS_NAME_PLURAL_TABLEIZED$,id',
+        ];
+    }
+}
