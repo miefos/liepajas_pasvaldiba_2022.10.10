@@ -32,6 +32,10 @@ class DatabaseSeeder extends Seeder
             UsersTableSeeder::class,
             RoleUserTableSeeder::class,
 
+            CompleteLevelsTableSeeder::class,
+
+            GoalsTableSeeder::class,
+
         ]);
 
         echo "\n\nEmail: $email\n";

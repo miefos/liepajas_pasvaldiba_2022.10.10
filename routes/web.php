@@ -32,6 +32,15 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin', 'middleware' => ['aut
     Route::get('/', 'HomeController@index')
         ->name('home');
 
+    // Complete Levels
+    Route::delete('complete_levels/destroy', 'CompleteLevels@massDestroy')->name('complete_levels.massDestroy');
+    Route::apiResource('complete_levels', 'CompleteLevelsController');
+
+    // Goals
+    Route::delete('goals/destroy', 'GoalsController@massDestroy')->name('goals.massDestroy');
+    Route::get('goals/hierarchical', 'GoalsController@goalsHierarchical')->name('goals.hierarchicalGoals');
+    Route::apiResource('goals', 'GoalsController');
+
     // Permissions
     Route::delete('permissions/destroy', 'PermissionsController@massDestroy')->name('permissions.massDestroy');
     Route::apiResource('permissions', 'PermissionsController');

@@ -137,7 +137,7 @@
                                 <label :for="'create-' + column.name">{{ column.header }}<span v-if="column.required" class="text-red-500">*</span></label>
 
                                 <InputText :name="column.name" v-if="column.type === 'text'" :id="'create-' + column.name" v-model.trim="createForm[column.name]" :required="column.required" autofocus :class="{'p-invalid': createForm.errors[column.name]}" />
-                                <Dropdown :name="column.name" v-else-if="column.type === 'dropdown'" :id="'create-' + column.name" v-model="createForm[column.name]" :options="listings[column.listing]" :optionLabel="column.label" :optionValue="column.value" />
+                                <Dropdown :name="column.name" v-else-if="column.type === 'dropdown'" :id="'create-' + column.name" v-model="createForm[column.name]" :options="[{[column.label]: '-', [column.value]: null}, ...listings[column.listing]]" :optionLabel="column.label" :optionValue="column.value" />
                                 <Calendar :name="column.name" v-else-if="column.type === 'date'" :id="'create-' + column.name" v-model="createForm[column.name]" :class="{'p-invalid': createForm.errors[column.name]}" />
                                 <MultiSelect :name="column.name" v-else-if="column.type === 'multiselect'" :id="'create-' + column.name" v-model="createForm[column.name]" :options="listings[column.listing]" :optionLabel="column.label" :optionValue="column.value" :filter="true"/>
                                 <div v-else>Unrecognized field.</div>
@@ -163,7 +163,7 @@
                         <label :for="'edit-' + column.name">{{ column.header }}<span v-if="column.required" class="text-red-500">*</span></label>
 
                         <InputText :name="column.name" v-if="column.type === 'text'" :id="'edit-' + column.name" v-model.trim="editForm[column.name]" :required="column.required" autofocus :class="{'p-invalid': editForm.errors[column.name]}" />
-                        <Dropdown :name="column.name" v-else-if="column.type === 'dropdown'" :id="'edit-' + column.name" v-model="editForm[column.name]" :options="listings[column.listing]" :optionLabel="column.label" :optionValue="column.value" :class="{'p-invalid': editForm.errors[column.name]}" />
+                        <Dropdown :name="column.name" v-else-if="column.type === 'dropdown'" :id="'edit-' + column.name" v-model="editForm[column.name]" :options="[{name: '-', id: null}, ...listings[column.listing]]" :optionLabel="column.label" :optionValue="column.value" :class="{'p-invalid': editForm.errors[column.name]}" />
                         <Calendar :name="column.name" v-else-if="column.type === 'date'" :id="'edit-' + column.name" v-model="editForm[column.name]" :class="{'p-invalid': editForm.errors[column.name]}" />
                         <MultiSelect :name="column.name" v-else-if="column.type === 'multiselect'" :id="'edit-' + column.name" v-model="editForm[column.name]" :options="listings[column.listing]" :optionLabel="column.label" :optionValue="column.value" :filter="true"/>
                         <div v-else>Unrecognized field.</div>

@@ -12,202 +12,38 @@
 
 namespace App\Models{
 /**
- * App\Models\Brand
+ * App\Models\CompleteLevel
  *
  * @property int $id
  * @property string $name
- * @method static \Illuminate\Database\Eloquent\Builder|Brand newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Brand newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Brand query()
- * @method static \Illuminate\Database\Eloquent\Builder|Brand whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Brand whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CompleteLevel newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|CompleteLevel newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|CompleteLevel query()
+ * @method static \Illuminate\Database\Eloquent\Builder|CompleteLevel whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CompleteLevel whereName($value)
  */
-	class Brand extends \Eloquent {}
+	class CompleteLevel extends \Eloquent {}
 }
 
 namespace App\Models{
 /**
- * App\Models\Category
+ * App\Models\Goal
  *
  * @property int $id
  * @property string $name
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Product[] $products
- * @property-read int|null $products_count
- * @method static \Illuminate\Database\Eloquent\Builder|Category newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Category newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Category query()
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereName($value)
+ * @property string $description
+ * @property int|null $parent_goal_id
+ * @property int $complete_level_id
+ * @method static \Illuminate\Database\Eloquent\Builder|Goal newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Goal newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Goal query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Goal whereCompleteLevelId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Goal whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Goal whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Goal whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Goal whereParentGoalId($value)
  */
-	class Category extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
- * App\Models\MetaField
- *
- * @property int $id
- * @property string $name
- * @method static \Illuminate\Database\Eloquent\Builder|MetaField newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|MetaField newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|MetaField query()
- * @method static \Illuminate\Database\Eloquent\Builder|MetaField whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MetaField whereName($value)
- */
-	class MetaField extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
- * App\Models\Order
- *
- * @property int $id
- * @property string $name
- * @property string|null $description
- * @property string $start_date
- * @property string $end_date
- * @property int $user_id
- * @property int $order_status_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OrderComment[] $comments
- * @property-read int|null $comments_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProductGroup[] $product_groups
- * @property-read int|null $product_groups_count
- * @property-read \App\Models\OrderStatus $status
- * @property-read \App\Models\User $user
- * @method static \Illuminate\Database\Eloquent\Builder|Order newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Order newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Order query()
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereEndDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereOrderStatusId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereStartDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereUserId($value)
- */
-	class Order extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
- * App\Models\OrderComment
- *
- * @property int $id
- * @property int $user_id
- * @property int $order_id
- * @property string $content
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\User $user
- * @method static \Illuminate\Database\Eloquent\Builder|OrderComment newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|OrderComment newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|OrderComment query()
- * @method static \Illuminate\Database\Eloquent\Builder|OrderComment whereContent($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderComment whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderComment whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderComment whereOrderId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderComment whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderComment whereUserId($value)
- */
-	class OrderComment extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
- * App\Models\OrderStatus
- *
- * @property int $id
- * @property string $name
- * @property string|null $description
- * @property int $product_availability_status_id
- * @property-read \App\Models\ProductAvailabilityStatus $product_availability_status
- * @method static \Illuminate\Database\Eloquent\Builder|OrderStatus newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|OrderStatus newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|OrderStatus query()
- * @method static \Illuminate\Database\Eloquent\Builder|OrderStatus whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderStatus whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderStatus whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderStatus whereProductAvailabilityStatusId($value)
- */
-	class OrderStatus extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
- * App\Models\Product
- *
- * @property int $id
- * @property string $name
- * @property string|null $description
- * @property string $sku
- * @property string|null $comment
- * @property int|null $product_group_id
- * @property int|null $brand_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProductAvailabilityStatus[] $availabilities
- * @property-read int|null $availabilities_count
- * @property-read \App\Models\Brand|null $brand
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Category[] $categories
- * @property-read int|null $categories_count
- * @property-read mixed $available
- * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
- * @property-read int|null $media_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\MetaField[] $metas
- * @property-read int|null $metas_count
- * @property-read \App\Models\ProductGroup|null $product_group
- * @method static \Illuminate\Database\Eloquent\Builder|Product newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Product newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Product query()
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereBrandId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereComment($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereProductGroupId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereSku($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereUpdatedAt($value)
- */
-	class Product extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
-}
-
-namespace App\Models{
-/**
- * App\Models\ProductAvailabilityStatus
- *
- * @property int $id
- * @property string $name
- * @property string $type
- * @method static \Illuminate\Database\Eloquent\Builder|ProductAvailabilityStatus newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|ProductAvailabilityStatus newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|ProductAvailabilityStatus query()
- * @method static \Illuminate\Database\Eloquent\Builder|ProductAvailabilityStatus whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ProductAvailabilityStatus whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ProductAvailabilityStatus whereType($value)
- */
-	class ProductAvailabilityStatus extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
- * App\Models\ProductGroup
- *
- * @property int $id
- * @property string $name
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Product[] $products
- * @property-read int|null $products_count
- * @method static \Illuminate\Database\Eloquent\Builder|ProductGroup newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|ProductGroup newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|ProductGroup query()
- * @method static \Illuminate\Database\Eloquent\Builder|ProductGroup whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ProductGroup whereName($value)
- */
-	class ProductGroup extends \Eloquent {}
+	class Goal extends \Eloquent {}
 }
 
 namespace App\Models{

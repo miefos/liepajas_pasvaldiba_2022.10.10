@@ -24,7 +24,8 @@ This project uses Laravel + Vue 3 + Jetstream (Inertia) + Tailwind + Primevue.
 # Notes
 1. May need to copy primevue icons folder to public...
 2. Inertia.reload in store.js - add all essential reloads (which has entity id)
-3. There are custom artisan commands: `php artisan make:crud [CrudName]`, e.g., `php artisan make:crud Account`
+3. There are custom artisan commands: `php artisan make:crud [CrudName]`, e.g., `php artisan make:crud Account`. 
+   1. However,you should reseed data so there are permissions. 
 
 # Run project
 1. compile js to public folder ``npm run dev``, ``npm run prod`` or ``npm run watch``

@@ -143,6 +143,9 @@ import {mapGetters} from "vuex";
 
 const navigation = [
     { name: 'Sākums', routeName: 'home', icon: HomeIcon},
+    {name: 'CompleteLevels', routeName: 'complete_levels.index', icon: CollectionIcon, can: ['complete_level_read']},
+    {name: 'Goals', routeName: 'goals.index', icon: CollectionIcon, can: ['goal_read']},
+    {name: 'Goals Hierarchy', routeName: 'goals.hierarchicalGoals', icon: CollectionIcon, can: ['goal_read']},
 ]
 const secondaryNavigation = [
     { name: 'Lietotāji un lomas', routeName: '#', icon: UserGroupIcon,
