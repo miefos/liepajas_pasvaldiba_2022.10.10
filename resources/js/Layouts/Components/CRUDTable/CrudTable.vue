@@ -30,8 +30,8 @@
                        :groupRowsBy="groupRowsBy"
             >
                 <template #header>
-                    <div class="flex">
-                        <div class="space-x-2">
+                    <div class="lg:flex space-y-1">
+                        <div class="grid grid-cols-1 space-y-1 lg:space-x-2 lg:flex ">
                             <Button v-if="hasAnyPermission([crudName + '_create']) && actions.create" icon="pi pi-plus" @click="createNewDialogOpen = true" label="Pievienot" />
     <!--                        <Button icon="pi pi-plus" disabled label="Importēt" />-->
                             <Button v-if="hasAnyPermission([crudName + '_export']) && actions['export']" @click="exportCSV" icon="pi pi-external-link" label="Eksportēt" />
@@ -48,9 +48,9 @@
                             <Button v-if="hasAnyPermission([crudName + '_delete']) && actions.massDelete" icon="pi pi-trash" class="p-button-danger" @click="massDelete" :disabled="selectedRows.length < 1" label="Dzēst atzīmētos" />
                         </div>
                         <span class="flex-1"></span>
-                        <span class="p-input-icon-left">
+                        <span class="w-full block lg:w-auto p-input-icon-left">
                             <i class="pi pi-search" />
-                            <InputText v-model="filters['global'].value" placeholder="Meklēt..." />
+                            <InputText class="w-full block lg:w-auto" v-model="filters['global'].value" placeholder="Meklēt..." />
                         </span>
                     </div>
                 </template>
