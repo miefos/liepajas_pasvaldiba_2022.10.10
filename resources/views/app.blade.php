@@ -24,11 +24,12 @@
             @endphp
             <script type="module" src="{{ asset('build/' . $manifest['resources/js/app.js']['file']) }}"></script>
             <link rel="stylesheet" href="{{ asset('build/' . $manifest['resources/js/app.js']['css'][0]) }}">
-            @else
+            @env('local', 'staging')
                 @verbatim
                     <script type="module" src="http://localhost:3000/@vite/client"></script>
                 @endverbatim
                 <script type="module" src="http://localhost:3000/resources/js/app.js"></script>
+            @endenv
         @endproduction
     </head>
     <body class="font-sans antialiased">
