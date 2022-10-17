@@ -87,7 +87,7 @@
                 </div>
 
                 <main class="flex-1 relative pb-8 z-0 overflow-y-auto min-h-[80%]">
-                    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 p-2">
+                    <div :class="[fullWidth ? '' : 'max-w-7xl mx-auto sm:px-6 lg:px-8 p-2']">
                         <!--                    <validation-errors></validation-errors>-->
                         <div class="px-4 pt-5 sm:px-6">
                             <div class="text-xl">
@@ -143,11 +143,12 @@ import {mapGetters} from "vuex";
 
 const navigation = [
     { name: 'Sākums', routeName: 'home', icon: HomeIcon},
-    {name: 'CompleteLevels', routeName: 'complete_levels.index', icon: CollectionIcon, can: ['complete_level_read']},
     {name: 'Goals', routeName: 'goals.index', icon: CollectionIcon, can: ['goal_read']},
-    {name: 'Goals Hierarchy', routeName: 'goals.hierarchicalGoals', icon: CollectionIcon, can: ['goal_read']},
 ]
 const secondaryNavigation = [
+    {name: 'Entities', routeName: 'entities.index', icon: CollectionIcon, can: ['entity_read']},
+    {name: 'EntityLevels', routeName: 'entity_levels.index', icon: CollectionIcon, can: ['entity_level_read']},
+    {name: 'CompleteLevels', routeName: 'complete_levels.index', icon: CollectionIcon, can: ['complete_level_read']},
     { name: 'Lietotāji un lomas', routeName: '#', icon: UserGroupIcon,
         children: [
             {name: 'Lietotāji', routeName: 'users.index', icon: UserGroupIcon, can: ["user_read"],},
@@ -180,7 +181,11 @@ export default {
         Dropdown
     },
     props: {
-        title: String
+        title: String,
+        fullWidth: {
+            type: Boolean,
+            default: false
+        }
     },
     data() {
       return {

@@ -32,6 +32,10 @@ class DatabaseSeeder extends Seeder
             UsersTableSeeder::class,
             RoleUserTableSeeder::class,
 
+            EntitiesTableSeeder::class,
+
+            EntityLevelsTableSeeder::class,
+
             CompleteLevelsTableSeeder::class,
 
             GoalsTableSeeder::class,

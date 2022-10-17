@@ -125,7 +125,7 @@ class makeCRUD extends Command
 
         // Append to routes (web.php)
         $filePath = base_path('routes') .'\\web.php';
-        $search = "Route::get('/', 'HomeController@index')
+        $search = "    Route::get('/', 'HomeController@index')
         ->name('home');";
         $insert = "\n    // {$upperCaseNamePlural}\n    Route::delete('$pluralNameTableized/destroy', '{$upperCaseNamePlural}Controller@massDestroy')->name('$pluralNameTableized.massDestroy');
     Route::apiResource('$pluralNameTableized', '{$upperCaseNamePlural}Controller');";

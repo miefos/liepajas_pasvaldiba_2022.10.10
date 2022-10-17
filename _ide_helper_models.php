@@ -27,6 +27,44 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\Entity
+ *
+ * @property int $id
+ * @property string $name
+ * @property int|null $parent_entity_id
+ * @property int $entity_level_id
+ * @property int $supervisor_id
+ * @property-read \Illuminate\Database\Eloquent\Collection|Entity[] $subEntities
+ * @property-read int|null $sub_entities_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Entity newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Entity newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Entity query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Entity whereEntityLevelId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Entity whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Entity whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Entity whereParentEntityId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Entity whereSupervisorId($value)
+ */
+	class Entity extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\EntityLevel
+ *
+ * @property int $id
+ * @property string $name
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityLevel newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityLevel newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityLevel query()
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityLevel whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityLevel whereName($value)
+ */
+	class EntityLevel extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Goal
  *
  * @property int $id
@@ -34,6 +72,9 @@ namespace App\Models{
  * @property string $description
  * @property int|null $parent_goal_id
  * @property int $complete_level_id
+ * @property-read \App\Models\CompleteLevel|null $completeLevel
+ * @property-read \Illuminate\Database\Eloquent\Collection|Goal[] $subGoals
+ * @property-read int|null $sub_goals_count
  * @method static \Illuminate\Database\Eloquent\Builder|Goal newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Goal newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Goal query()
