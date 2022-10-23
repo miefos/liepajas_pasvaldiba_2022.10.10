@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\ParentGoalEntityShouldBeOneLevelAboveRequestedEntityLevel;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -19,6 +20,10 @@ class UpdateGoalRequest extends FormRequest
                 'string',
                 'required',
                 'unique:goals,name,' . request()->route('goal')->id,
+            ],
+            'entity_id' => [
+                'exists:entities,id',
+                new ParentGoalEntityShouldBeOneLevelAboveRequestedEntityLevel()
             ],
         ];
     }

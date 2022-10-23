@@ -9,40 +9,32 @@ class DatabaseSeeder extends Seeder
 {
     public function run()
     {
-        $email = 'email@email.com';
-        $password = 'strongPassword';
+        $superadminEmail = 'superadmin@email.com';
+        $password = 'password';
 
         $user = User::create([
             'name'           => 'SuperAdmin',
-            'email'          => $email,
+            'email'          => $superadminEmail,
             'password'       => bcrypt($password),
         ]);
         $user2 = User::create([
-            'name'           => 'Other user',
-            'email'          => $email . '2',
+            'name'           => 'User',
+            'email'          => 'user@email.com',
             'password'       => bcrypt($password),
         ]);
-
-        \Auth::login($user);
 
         $this->call([
             PermissionsTableSeeder::class,
             RolesTableSeeder::class,
             PermissionRoleTableSeeder::class,
-            UsersTableSeeder::class,
             RoleUserTableSeeder::class,
-
             EntitiesTableSeeder::class,
-
             EntityLevelsTableSeeder::class,
-
             CompleteLevelsTableSeeder::class,
-
             GoalsTableSeeder::class,
-
         ]);
 
-        echo "\n\nEmail: $email\n";
+        echo "\n\nEmail: $superadminEmail\n";
         echo "Password: $password\n\n";
     }
 }

@@ -19,15 +19,15 @@ class RolesTableSeeder extends Seeder
             ],
             [
                 'id'    => 3,
-                'name' => 'Noliktavas pārzinis',
+                'name' => 'Role X',
             ],
             [
                 'id'    => 4,
-                'name' => 'Mārketinga daļa',
+                'name' => 'Role Y',
             ],
             [
                 'id'    => 5,
-                'name' => 'User',
+                'name' => 'Darbinieks',
             ],
         ];
 

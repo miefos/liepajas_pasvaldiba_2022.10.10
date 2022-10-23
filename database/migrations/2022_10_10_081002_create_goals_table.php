@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('description');
+            $table->string('comment')->nullable();
             $table->foreignId('parent_goal_id')->nullable()->references('id')->on('goals');
             $table->foreignId('complete_level_id')->default(1);
             $table->foreignId('entity_id');

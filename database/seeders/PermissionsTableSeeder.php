@@ -93,61 +93,6 @@ class PermissionsTableSeeder extends Seeder
                 'name' => 'goal_export',
             ],
             [
-                'name' => 'transaction_line_create',
-            ],            [
-                'name' => 'transaction_line_read',
-            ],            [
-                'name' => 'transaction_line_update',
-            ],            [
-                'name' => 'transaction_line_delete',
-            ],            [
-                'name' => 'transaction_line_export',
-            ],
-            [
-                'name' => 'counterparty_create',
-            ],            [
-                'name' => 'counterparty_read',
-            ],            [
-                'name' => 'counterparty_update',
-            ],            [
-                'name' => 'counterparty_delete',
-            ],            [
-                'name' => 'counterparty_export',
-            ],
-            [
-                'name' => 'transaction_create',
-            ],            [
-                'name' => 'transaction_read',
-            ],            [
-                'name' => 'transaction_update',
-            ],            [
-                'name' => 'transaction_delete',
-            ],            [
-                'name' => 'transaction_export',
-            ],
-            [
-                'name' => 'account_create',
-            ],            [
-                'name' => 'account_read',
-            ],            [
-                'name' => 'account_update',
-            ],            [
-                'name' => 'account_delete',
-            ],            [
-                'name' => 'account_export',
-            ],
-            [
-                'name' => 'currency_create',
-            ],            [
-                'name' => 'currency_read',
-            ],            [
-                'name' => 'currency_update',
-            ],            [
-                'name' => 'currency_delete',
-            ],            [
-                'name' => 'currency_export',
-            ],
-            [
                 'name' => 'entity_create',
             ],            [
                 'name' => 'entity_read',
