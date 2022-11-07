@@ -32,6 +32,10 @@ class UpdateUserRequest extends FormRequest
                 'nullable',
                 'array',
             ],
+            'entity_id' => [
+                'nullable',
+                'exists:entities,id',
+            ],
         ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Entity;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class EntityResource extends JsonResource
@@ -16,13 +17,20 @@ class EntityResource extends JsonResource
      */
     public function toArray($request)
     {
+        if ($this->resource instanceof Entity) {
+            $children = [...$this->subEntities, ...$this->employees];
+        } else {
+            $children = [];
+        }
+
+
         return [
             'id' => $this->id,
             'data' => [
                 'name' => $this->name,
-                'supervisor' => $this->supervisor,
+                'supervisor' => $this->supervisor ?? "",
             ],
-            'children' => EntityResource::collection($this->subEntities)
+            'children' => EntityResource::collection($children)
         ];
     }
 }

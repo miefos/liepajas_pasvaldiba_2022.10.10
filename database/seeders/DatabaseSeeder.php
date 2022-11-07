@@ -17,11 +17,6 @@ class DatabaseSeeder extends Seeder
             'email'          => $superadminEmail,
             'password'       => bcrypt($password),
         ]);
-        $user2 = User::create([
-            'name'           => 'User',
-            'email'          => 'user@email.com',
-            'password'       => bcrypt($password),
-        ]);
 
         $this->call([
             PermissionsTableSeeder::class,
@@ -31,6 +26,7 @@ class DatabaseSeeder extends Seeder
             EntitiesTableSeeder::class,
             EntityLevelsTableSeeder::class,
             CompleteLevelsTableSeeder::class,
+            UserTableSeeder::class,
             GoalsTableSeeder::class,
         ]);
 

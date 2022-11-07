@@ -12,33 +12,20 @@ class PermissionRoleTableSeeder extends Seeder
     {
         $allPermissions = Permission::all();
 
-        $roles = [1,2,3,4,5]; // Super Admin, Admin, Warehouse, Marketing, User
+        $roles = [1,2,3]; // Super Admin, Admin, Darbinieks
         $notPermissions = [
             1 => [],
-            2 => ['role_', 'permission_'],
-            3 => ['role_', 'permission_', 'user_'],
+            2 => [],
         ];
 
         $permissions = [
-            4 => [
-                'order_create',
-                'order_read',
-                'order_update',
-                'order_export',
-                'order_delete',
-                'product_read',
-                'order_status_read',
-                'product_availability_status_read',
-                'category_read',
-                'product_group_read',
-                'order_comment_create',
-                'product_read_crud_table',
-                'brand_read',
-                'meta_field_read',
-            ],
-            5 => [
-                'product_read'
-            ],
+            3 => [
+                'goal_create',
+                'goal_read',
+                'goal_update',
+                'goal_export',
+                'goal_delete',
+            ]
         ];
 
         foreach ($roles as $roleId) {

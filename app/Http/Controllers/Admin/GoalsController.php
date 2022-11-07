@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Resources\GoalsResource;
 use App\Models\CompleteLevel;
 use App\Models\Entity;
+use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,8 +28,18 @@ class GoalsController extends Controller
             'subGoals.subGoals',
             'subGoals.subGoals.subGoals',
             'completeLevel',
-            'entity'
-        ])->whereNull('parent_goal_id')->get())->collection;
+            'entity',
+            'subGoals.entity',
+            'subGoals.subGoals.entity',
+            'subGoals.subGoals.subGoals.entity',
+            'user',
+            'subGoals.user',
+            'subGoals.subGoals.user',
+            'subGoals.subGoals.subGoals.user',
+        ])
+            ->whereHas('entity', function ($query) {
+                $query->where('is_root_node', '=', 1);
+            })->get())->collection;
 
         $goalsHierarchical = ['id' => 0, 'data' => ['name' => 'Liepājas Pašvaldība'], 'children' => $goalsHierarchical];
 
@@ -36,6 +47,7 @@ class GoalsController extends Controller
           'goals' => Goal::all(),
           'completeLevels' => CompleteLevel::all(),
           'entities' => Entity::all(),
+          'users' => User::all()
         ];
 
         return Inertia::render('Goals', [

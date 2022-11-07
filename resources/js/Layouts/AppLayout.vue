@@ -146,9 +146,9 @@ const navigation = [
     {name: 'Goals', routeName: 'goals.index', icon: CollectionIcon, can: ['goal_read']},
 ]
 const secondaryNavigation = [
-    {name: 'Entities', routeName: 'entities.index', icon: CollectionIcon, can: ['entity_read']},
-    {name: 'EntityLevels', routeName: 'entity_levels.index', icon: CollectionIcon, can: ['entity_level_read']},
-    {name: 'CompleteLevels', routeName: 'complete_levels.index', icon: CollectionIcon, can: ['complete_level_read']},
+    {name: 'Struktūrvienības', routeName: 'entities.index', icon: CollectionIcon, can: ['entity_read']},
+    {name: 'Struktūrvienību līmeņi', routeName: 'entity_levels.index', icon: CollectionIcon, can: ['entity_level_read']},
+    {name: 'Pabeigtības līmeņi', routeName: 'complete_levels.index', icon: CollectionIcon, can: ['complete_level_read']},
     { name: 'Lietotāji un lomas', routeName: '#', icon: UserGroupIcon,
         children: [
             {name: 'Lietotāji', routeName: 'users.index', icon: UserGroupIcon, can: ["user_read"],},

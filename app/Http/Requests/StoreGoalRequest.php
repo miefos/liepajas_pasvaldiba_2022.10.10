@@ -26,6 +26,7 @@ class StoreGoalRequest extends FormRequest
                 'unique:goals'
             ],
             'entity_id' => [
+                'nullable',
                 'exists:entities,id',
                 new ParentGoalEntityShouldBeOneLevelAboveRequestedEntityLevel()
             ],

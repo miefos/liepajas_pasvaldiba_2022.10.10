@@ -9,6 +9,7 @@ use App\Http\Requests\MassDestroyUserRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Mail\RegistrationInvitationMail;
+use App\Models\Entity;
 use App\Models\User;
 use App\Models\UserInvitation;
 use Carbon\Carbon;
@@ -37,7 +38,8 @@ class UsersController extends Controller
         });
 
         $listings = [
-            'roles' => Role::all('id', 'name')
+            'roles' => Role::all('id', 'name'),
+            'entities' => Entity::all('id', 'name')
         ];
 
         return Inertia::render('Users/index', [

@@ -20,7 +20,15 @@ class EntityLevelsController extends Controller
         $entityLevels = EntityLevel::all();
 
         $listings = [
-          'entityLevels' => $entityLevels
+          'entityLevels' => $entityLevels,
+          'booleanShowAll' => [
+              ['value' => 0, 'name' => 'Nerādīt'],
+              ['value' => 1, 'name' => 'Rādīt'],
+          ],
+          'booleanEmployeeLevel' => [
+              ['value' => 0, 'name' => 'Nav'],
+              ['value' => 1, 'name' => 'Ir'],
+          ]
         ];
 
         return Inertia::render('EntityLevels', [

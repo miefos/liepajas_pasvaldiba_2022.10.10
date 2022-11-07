@@ -23,7 +23,7 @@ class GoalsResource extends JsonResource
                 'name' => $this->name,
                 'description' => $this->description,
                 'completeLevel' => $this->completeLevel->name,
-                'entity' => $this->entity,
+                'entity' => $this->entity ?? $this->user,
                 'comment' => $this->comment,
             ],
             'children' => GoalsResource::collection($this->subGoals)

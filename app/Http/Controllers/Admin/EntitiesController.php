@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Resources\EntitiesForTableResource;
 use App\Http\Resources\EntityResource;
 use App\Models\EntityLevel;
 use App\Models\User;
@@ -30,15 +31,20 @@ class EntitiesController extends Controller
             'subEntities.subEntities.subEntities'
         ])->where('is_root_node', '=', 1)->firstOrFail());
 
+        $users = User::all();
+        $usersWithEntityAssigned = User::whereNotNull('entity_id')->get();
+
         $listings = [
-            'entities' => Entity::all(),
+            'entities' => $entities,
             'entityLevels' => EntityLevel::all(),
-            'users' => User::all(),
+            'users' => $users,
         ];
+
+        $entitiesWithUsers = [...$entities, ...$usersWithEntityAssigned];
 
         return Inertia::render('Entities', [
             'entitiesHierarchical' => $entitiesHierarchical,
-            'entities' => $entities,
+            'entities' => EntitiesForTableResource::collection($entitiesWithUsers)->collection,
             'listings' => $listings
         ]);
     }

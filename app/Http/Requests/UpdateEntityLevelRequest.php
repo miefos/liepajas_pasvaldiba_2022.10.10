@@ -24,8 +24,24 @@ class UpdateEntityLevelRequest extends FormRequest
                 'int',
                 'nullable',
                 'exists:entity_levels,id',
-                'unique:entity_levels,parent_entity_level_id,' . request()->route('entity_level')->parent_entity_level_id,
-            ]
+                'unique:entity_levels,parent_entity_level_id,' . request()->route('entity_level')->id,
+            ],
+            'show_to_all' => [
+                'required',
+                'boolean'
+            ],
+            'employee_level' => [
+                'required',
+                'boolean'
+            ],
+            'show_to_direct_descendant' => [
+                'required',
+                'boolean'
+            ],
+            'show_to_descendants' => [
+                'required',
+                'boolean'
+            ],
         ];
     }
 }

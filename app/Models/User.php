@@ -36,6 +36,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'entity_id'
     ];
 
     /**
@@ -81,4 +82,19 @@ class User extends Authenticatable
         return $date->format('Y-m-d H:i:s');
     }
 
+    public function entity() {
+        return $this->belongsTo(Entity::class);
+    }
+
+    public function goals() {
+        return $this->hasMany(Goal::class)->withoutGlobalScope('authorizeGoal');
+    }
+
+    public function supervisedEntities() {
+        return $this->hasMany(Entity::class, 'supervisor_id');
+    }
+
+    public function directlySupervisedEmployees() {
+        return $this->hasManyThrough(User::class, Entity::class, 'supervisor_id');
+    }
 }

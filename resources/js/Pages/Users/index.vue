@@ -40,6 +40,7 @@ export default {
             {type: 'text', hideOnCreate: true, name: 'name', header: 'Vārds', sortable: true, searchable: true, required: true},
             {type: 'text', name: 'email', header: 'E-pasts', sortable: true, searchable: true, required: true},
             {type: 'multiselect', name: 'roles', label: 'name', listing: 'roles', value: 'id', header: 'Lomas'},
+            {type: 'dropdown', name: 'entity_id', label: 'name',  listing: 'entities', value: 'id', header: 'Piederība', sortable: true},
         ]
 
         return {

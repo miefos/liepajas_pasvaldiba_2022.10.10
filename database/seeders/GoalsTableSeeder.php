@@ -4,13 +4,15 @@ namespace Database\Seeders;
 
 use App\Models\Entity;
 use App\Models\Goal;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Faker\Generator as Faker;
 
 class GoalsTableSeeder extends Seeder
 {
-    public function run()
+    public function run(Faker $faker)
     {
         Goal::insert([
             [
@@ -118,13 +120,18 @@ class GoalsTableSeeder extends Seeder
             ],
         ]);
 
-//        Goal::insert([
-//            [
-//                'name' => 'Goal 1.1',
-//                'description' => 'Goal 1.1 description',
-//                'complete_level_id' => 1,
-//                'parent_goal_id' => 1
-//            ],
-//        ]);
+        for ($i = 1; $i < 100; $i++) {
+            $user_id = rand(2,25);
+
+            $parentGoals = collect(User::findOrFail($user_id)->entity->goals);
+
+            Goal::insert([
+                'name' => 'Mērķis #' . $i,
+                'description' => 'Mērķa apraksts',
+                'complete_level_id' => rand(1,3),
+                'parent_goal_id' => $parentGoals->count() > 0 ? $parentGoals->random()->id : null,
+                'user_id' => $user_id
+            ]);
+        }
     }
 }
