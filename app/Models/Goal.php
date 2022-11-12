@@ -6,6 +6,7 @@ use Error;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 class Goal extends Model
 {
@@ -39,7 +40,7 @@ class Goal extends Model
         static::addGlobalScope('authorizeGoal', function (Builder $builder) {
             $user = auth()->user();
 
-            if (!$user) return null;
+            abort_if(!$user,Response::HTTP_FORBIDDEN, '403 Forbidden');
 
             if ($user->hasRole('Super Admin')) return $builder;
 

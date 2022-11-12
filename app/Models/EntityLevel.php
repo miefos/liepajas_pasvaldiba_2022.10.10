@@ -16,4 +16,8 @@ class EntityLevel extends Model
     public function parentEntityLevel () {
         return $this->belongsTo(EntityLevel::class, 'parent_entity_level_id');
     }
+
+    public function entities() {
+        return $this->hasMany(Entity::class);
+    }
 }
