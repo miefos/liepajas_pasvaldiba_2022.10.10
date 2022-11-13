@@ -2,14 +2,14 @@
     <app-layout title="Sākums">
         <div class="flex items-center">
             <h1 class="text-2xl flex-1 my-4">Paziņojumi</h1>
-            <button @click="toggleRead('all')" class="bg-sky-700 rounded-md px-4 py-2 text-white hover:bg-sky-800">
+            <button @click="toggleRead('all')" class="bg-custom-main-700 rounded-md px-4 py-2 text-white hover:bg-custom-main-800">
                 Izlasīt visus
             </button>
         </div>
         <div class="bg-white shadow overflow-hidden sm:rounded-md w-full">
             <ul role="list" class="divide-y divide-gray-200">
                 <li v-for="notification in notifications" :key="notification.id">
-                    <div class="block hover:bg-sky-100"  :class="notification.read_at ? 'bg-gray-50' : 'bg-sky-50'">
+                    <div class="block hover:bg-custom-main-100"  :class="notification.read_at ? 'bg-gray-50' : 'bg-custom-main-50'">
                         <div class="flex items-center px-4 py-4 sm:px-6">
                             <div class="min-w-0 flex-1 flex items-center">
                                 <div class="flex-shrink-0">

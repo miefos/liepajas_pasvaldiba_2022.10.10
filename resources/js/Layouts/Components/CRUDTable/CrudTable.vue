@@ -30,8 +30,8 @@
                        :groupRowsBy="groupRowsBy"
             >
                 <template #header>
-                    <div class="lg:flex space-y-1">
-                        <div class="grid grid-cols-1 space-y-1 lg:space-x-2 lg:flex ">
+                    <div class="lg:flex space-y-1 md:space-y-0">
+                        <div class="grid grid-cols-1 space-y-1 md:space-y-0 lg:space-x-2 lg:flex ">
                             <Button v-if="hasAnyPermission([crudName + '_create']) && actions.create" icon="pi pi-plus" @click="createNewDialogOpen = true" label="Pievienot" />
     <!--                        <Button icon="pi pi-plus" disabled label="Importēt" />-->
                             <Button v-if="hasAnyPermission([crudName + '_export']) && actions['export']" @click="exportCSV" icon="pi pi-external-link" label="Eksportēt" />
@@ -123,7 +123,7 @@
 
             </DataTable>
 
-            <Dialog v-model:visible="createNewDialogOpen" :style="{width: '450px'}" :header="labels?.createHeader ?? 'Create new'" :modal="true" class="p-fluid" :dismissableMask="true">
+            <Dialog v-model:visible="createNewDialogOpen" :header="labels?.createHeader ?? 'Create new'" :modal="true" class="p-fluid w-full m-2 md:m-0 md:w-3/5" :dismissableMask="true">
                     <ul class="text-red-500 list-disc mb-4 mx-4">
                         <li v-for="(err, key) in createForm.errors">
                             {{ err }}
@@ -137,6 +137,7 @@
                                 <label :for="'create-' + column.name">{{ column.header }}<span v-if="column.required" class="text-red-500">*</span></label>
 
                                 <InputText :name="column.name" v-if="column.type === 'text'" :id="'create-' + column.name" v-model.trim="createForm[column.name]" :required="column.required" autofocus :class="{'p-invalid': createForm.errors[column.name]}" />
+                                <Textarea :name="column.name" v-else-if="column.type === 'textarea'" :id="'create-' + column.name" v-model.trim="createForm[column.name]" :required="column.required" autofocus :class="{'p-invalid': createForm.errors[column.name]}" />
                                 <Dropdown :name="column.name" v-else-if="column.type === 'dropdown'" :id="'create-' + column.name" v-model="createForm[column.name]" :options="[{[column.label]: '-', [column.value]: null}, ...listings[column.listing]]" :optionLabel="column.label" :optionValue="column.value" />
                                 <Calendar :name="column.name" v-else-if="column.type === 'date'" :id="'create-' + column.name" v-model="createForm[column.name]" :class="{'p-invalid': createForm.errors[column.name]}" />
                                 <MultiSelect :name="column.name" v-else-if="column.type === 'multiselect'" :id="'create-' + column.name" v-model="createForm[column.name]" :options="listings[column.listing]" :optionLabel="column.label" :optionValue="column.value" :filter="true"/>
@@ -154,7 +155,7 @@
                 </template>
             </Dialog>
 
-            <Dialog v-model:visible="editDialogOpen" :style="{width: '450px'}" :header="labels?.editHeader ?? 'Edit'" :modal="true" class="p-fluid" :dismissableMask="true">
+            <Dialog v-model:visible="editDialogOpen" :header="labels?.editHeader ?? 'Edit'" :modal="true" class="p-fluid w-full m-2 md:m-0 md:w-3/5" :dismissableMask="true">
                 <ValidationErrors :errors="updateSingle.errors"></ValidationErrors>
 
                 <form @submit.prevent="updateSingle" class="space-y-4" ref="theEditForm">
@@ -163,6 +164,7 @@
                         <label :for="'edit-' + column.name">{{ column.header }}<span v-if="column.required" class="text-red-500">*</span></label>
 
                         <InputText :name="column.name" v-if="column.type === 'text'" :id="'edit-' + column.name" v-model.trim="editForm[column.name]" :required="column.required" autofocus :class="{'p-invalid': editForm.errors[column.name]}" />
+                        <Textarea :name="column.name" v-else-if="column.type === 'textarea'" :id="'edit-' + column.name" v-model.trim="editForm[column.name]" :required="column.required" autofocus :class="{'p-invalid': editForm.errors[column.name]}" />
                         <Dropdown :name="column.name" v-else-if="column.type === 'dropdown'" :id="'edit-' + column.name" v-model="editForm[column.name]" :options="[{name: '-', id: null}, ...listings[column.listing]]" :optionLabel="column.label" :optionValue="column.value" :class="{'p-invalid': editForm.errors[column.name]}" />
                         <Calendar :name="column.name" v-else-if="column.type === 'date'" :id="'edit-' + column.name" v-model="editForm[column.name]" :class="{'p-invalid': editForm.errors[column.name]}" />
                         <MultiSelect :name="column.name" v-else-if="column.type === 'multiselect'" :id="'edit-' + column.name" v-model="editForm[column.name]" :options="listings[column.listing]" :optionLabel="column.label" :optionValue="column.value" :filter="true"/>

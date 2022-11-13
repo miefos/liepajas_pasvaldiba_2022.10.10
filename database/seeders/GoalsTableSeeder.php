@@ -14,7 +14,7 @@ class GoalsTableSeeder extends Seeder
 {
     public function run(Faker $faker)
     {
-        Goal::insert([
+        Goal::withoutGlobalScopes()->insert([
             [
                 'name' => 'Profesionāli darbinieki',
                 'description' => 'Mērķtiecīgi pilnveidot darbinieku prasmes un motivāciju',
@@ -45,7 +45,8 @@ class GoalsTableSeeder extends Seeder
                 'complete_level_id' => 1,
                 'entity_id' => 1,
                 'parent_goal_id' => null
-            ],[
+            ],
+            [
                 'name' => 'Celt darbinieku kvalifikāciju',
                 'description' => '',
                 'complete_level_id' => 1,
@@ -123,9 +124,9 @@ class GoalsTableSeeder extends Seeder
         for ($i = 1; $i < 100; $i++) {
             $user_id = rand(2,25);
 
-            $parentGoals = collect(User::findOrFail($user_id)->entity->goals);
+            $parentGoals = collect(User::findOrFail($user_id)->entity->goals()->withoutGlobalScopes()->get());
 
-            Goal::insert([
+            Goal::withoutGlobalScopes()->insert([
                 'name' => 'Mērķis #' . $i,
                 'description' => 'Mērķa apraksts',
                 'complete_level_id' => rand(1,3),

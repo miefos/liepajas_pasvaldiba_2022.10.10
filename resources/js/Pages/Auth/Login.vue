@@ -52,7 +52,7 @@
 
                     <div>
                         <button type="submit" :class="{ 'opacity-25': form.processing }" :disabled="form.processing"
-                                class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-0">
+                                class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-custom-main-600 hover:bg-custom-main-700 focus:outline-none focus:ring-0">
                             Ienākt
                         </button>
                     </div>

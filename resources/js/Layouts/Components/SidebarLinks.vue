@@ -11,8 +11,8 @@
                     :href="item.href"
                     :class="[
                (route().current() === item.routeName && paramsMatch(item))  ? // active
-               'bg-sky-900 text-white' :
-               'text-white hover:bg-sky-800',
+               'bg-custom-main-900 text-white' :
+               'text-white hover:bg-custom-main-800',
                // 'text-cyan-100 hover:text-white hover:bg-cyan-600',
                'transition duration-300 group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md'
                ]"
@@ -30,8 +30,8 @@
                       :href="item.routeName === '#' ? '#' : route(item.routeName, item.params)"
                       :class="[
                                        (route().current() === item.routeName && paramsMatch(item))  ? // active
-                                       'bg-sky-900 text-white' :
-                                       'text-white hover:bg-sky-800',
+                                       'bg-custom-main-900 text-white' :
+                                       'text-white hover:bg-custom-main-800',
                                        // 'text-cyan-100 hover:text-white hover:bg-cyan-600',
                                        'transition duration-300 group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md'
                                        ]"
@@ -62,8 +62,8 @@
                 <DisclosureButton
                     :class="[
                        route().current() === item.routeName  ? // active
-                       'bg-sky-900 text-white' :
-                       'text-white hover:bg-sky-800',
+                       'bg-custom-main-900 text-white' :
+                       'text-white hover:bg-custom-main-800',
                        // 'text-cyan-100 hover:text-white hover:bg-cyan-600',
                        'w-full text-left transition duration-300 group flex px-2 py-2 text-sm leading-6 font-medium rounded-md'
                        ]"
@@ -86,8 +86,8 @@
                                 :href="subItem.routeName === '#' ? '#' : route(subItem.routeName)"
                                 :class="[
                                route().current() === subItem.routeName ? // active
-                               'bg-sky-900 text-white' :
-                               'text-white hover:bg-sky-800',
+                               'bg-custom-main-900 text-white' :
+                               'text-white hover:bg-custom-main-800',
                                // 'text-cyan-100 hover:text-white hover:bg-cyan-600',
                                'w-full pl-8 pr-2 py-2 transition duration-300 group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md'
                                ]"

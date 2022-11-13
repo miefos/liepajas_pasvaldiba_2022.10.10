@@ -10,7 +10,7 @@
                         <DialogOverlay class="fixed inset-0 bg-gray-600 bg-opacity-75" />
                     </TransitionChild>
                     <TransitionChild as="template" enter="transition ease-in-out duration-300 transform" enter-from="-translate-x-full" enter-to="translate-x-0" leave="transition ease-in-out duration-300 transform" leave-from="translate-x-0" leave-to="-translate-x-full">
-                        <div class="relative flex-1 flex flex-col max-w-xs w-full pt-5 pb-4 bg-sky-700">
+                        <div class="relative flex-1 flex flex-col max-w-xs w-full pt-5 pb-4 bg-custom-main-700">
                             <TransitionChild as="template" enter="ease-in-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in-out duration-300" leave-from="opacity-100" leave-to="opacity-0">
                                 <div class="absolute top-0 right-0 -mr-12 pt-2">
                                     <button type="button" class="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" @click="sidebarOpen = false">
@@ -41,38 +41,45 @@
             </TransitionRoot>
 
             <!-- Static sidebar for desktop -->
-            <div class="hidden lg:flex lg:flex-shrink-0">
-                <div class="flex flex-col w-64">
-                    <!-- Sidebar component, swap this element with another sidebar if you like -->
-                    <div class="flex flex-col flex-grow bg-sky-700 overflow-y-auto">
-                        <div class="w-full my-6">
-                            <div class="text-xl font-bold text-cyan-50 text-center tracking-wider">
-                                {{ $page.props?.app?.name ?? 'Company' }}
-                            </div>
-<!--                            <img class="mx-auto w-1/2" src="/storage/images/logo.png" alt="logo" />-->
-                        </div>
-                        <nav class="flex-1 flex flex-col divide-y divide-sky-900 overflow-y-auto" aria-label="Sidebar">
-                            <div class="px-3 space-y-1">
-                                <sidebar-links :links="navigation" />
-                            </div>
-                            <div class="mt-6 pt-6">
-                                <div class="px-3 space-y-1">
-                                    <sidebar-links :links="secondaryNavigation" />
+            <TransitionRoot as="template" :show="sidebarOpenDesktop">
+                    <div class="hidden lg:flex lg:flex-shrink-0">
+                        <div class="flex flex-col w-64">
+                            <!-- Sidebar component, swap this element with another sidebar if you like -->
+                            <div class="flex flex-col flex-grow bg-custom-main-700 overflow-y-auto">
+                                <div class="w-full my-6">
+                                    <div class="text-xl font-bold text-cyan-50 text-center tracking-wider">
+                                        {{ $page.props?.app?.name ?? 'Company' }}
+                                    </div>
+        <!--                            <img class="mx-auto w-1/2" src="/storage/images/logo.png" alt="logo" />-->
                                 </div>
+                                <nav class="flex-1 flex flex-col divide-y divide-sky-900 overflow-y-auto" aria-label="Sidebar">
+                                    <div class="px-3 space-y-1">
+                                        <sidebar-links :links="navigation" />
+                                    </div>
+                                    <div class="mt-6 pt-6">
+                                        <div class="px-3 space-y-1">
+                                            <sidebar-links :links="secondaryNavigation" />
+                                        </div>
+                                    </div>
+                                </nav>
                             </div>
-                        </nav>
+                        </div>
                     </div>
-                </div>
-            </div>
+            </TransitionRoot>
 
             <!-- topbar -->
             <div class="flex-1 overflow-auto focus:outline-none">
                 <div class="relative z-10 flex-shrink-0 flex h-20 bg-gray-200">
 
-                    <button type="button" class="px-4 border-r border-gray-300 text-gray-400 focus:outline-none focus:ring-0 focus:ring-inset focus:ring-sky-500 lg:hidden" @click="sidebarOpen = true">
+                    <button type="button" class="px-4 border-r border-gray-300 text-gray-400 focus:outline-none focus:ring-0 focus:ring-inset focus:ring-sky-500"
+                        @click="sidebarOpen = true; sidebarOpenDesktop = !sidebarOpenDesktop;">
                         <span class="sr-only">Open sidebar</span>
                         <MenuAlt1Icon class="h-6 w-6" aria-hidden="true" />
                     </button>
+
+                    <div class="flex-1 px-4 flex">
+                        <img class="" src="/storage/images/logo.png" alt="logo" />
+                    </div>
 
                     <div class="flex-1 px-4 flex justify-between sm:px-6 w-full lg:mx-auto lg:px-8">
 
@@ -87,7 +94,7 @@
                 </div>
 
                 <main class="flex-1 relative pb-8 z-0 overflow-y-auto min-h-[80%]">
-                    <div :class="[fullWidth ? '' : 'max-w-7xl mx-auto sm:px-6 lg:px-8 p-2']">
+                    <div>
                         <!--                    <validation-errors></validation-errors>-->
                         <div class="px-4 pt-5 sm:px-6">
                             <div class="text-xl">
@@ -182,10 +189,6 @@ export default {
     },
     props: {
         title: String,
-        fullWidth: {
-            type: Boolean,
-            default: false
-        }
     },
     data() {
       return {
@@ -213,11 +216,13 @@ export default {
     },
     setup() {
         const sidebarOpen = ref(false) // for mobile view
+        const sidebarOpenDesktop = ref(true)
 
         return {
             navigation,
             secondaryNavigation,
-            sidebarOpen
+            sidebarOpen,
+            sidebarOpenDesktop
         }
     },
 }

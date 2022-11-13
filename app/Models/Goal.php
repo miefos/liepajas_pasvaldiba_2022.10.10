@@ -34,9 +34,11 @@ class Goal extends Model
         return $this->belongsTo(User::class);
     }
 
-    // inefficient (!!!) authorization algotihm to goals
+    // inefficient (!!!) authorization algorithm to goals
     // TODO improve the algorithm
     protected static function booted() {
+        parent::boot();
+
         static::addGlobalScope('authorizeGoal', function (Builder $builder) {
             $user = auth()->user();
 
