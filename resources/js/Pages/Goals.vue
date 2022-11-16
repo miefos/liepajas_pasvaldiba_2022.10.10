@@ -13,6 +13,9 @@
                     <div class="text-xs text-gray-700">
                         {{ slotProps.node.data.comment }}
                     </div>
+<!--                    <div v-if="slotProps.node.data.editable">-->
+<!--                        <i class="pi pi-pencil hover:bg-custom-main-400 rounded-full p-2 hover:bg-opacity-20" style="font-size: 1.2rem;" @click.stop="alert('edit')" />-->
+<!--                    </div>-->
                 </div>
             </template>
         </organization-chart>

@@ -34,6 +34,21 @@ class Goal extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function editableByCurrentUser() {
+        $user = Auth::user();
+
+        if (!$user) {
+            return false;
+        }
+
+        // allow edit if the user is specified in the goal
+        if ($this->user && $this->user->id === $user->id) {
+            return true;
+        }
+
+        return false;
+    }
+
     // inefficient (!!!) authorization algorithm to goals
     // TODO improve the algorithm
     protected static function booted() {

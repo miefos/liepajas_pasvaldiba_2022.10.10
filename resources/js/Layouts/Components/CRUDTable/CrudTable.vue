@@ -105,10 +105,10 @@
                 <Column :exportable="false" style="min-width:8rem" class="space-x-2">
                     <template #body="slotProps">
                         <template v-if="hasAnyPermission([crudName + '_update']) && actions.update">
-                            <i v-if="!routeNames.edit" class="pi pi-pencil hover:bg-blue-400 rounded-full p-2 hover:bg-opacity-20" style="font-size: 1.2rem;" @click.stop="startEdit(slotProps.data)" />
-                            <Link v-else :href="route(routeNames.edit, slotProps.data.id)"><i  class="pi pi-pencil hover:bg-blue-400 rounded-full p-2 hover:bg-opacity-20" style="font-size: 1.2rem;" /></Link>
+                            <i v-if="!routeNames.edit" class="pi pi-pencil hover:bg-custom-main-400 rounded-full p-2 hover:bg-opacity-20" style="font-size: 1.2rem;" @click.stop="startEdit(slotProps.data)" />
+                            <Link v-else :href="route(routeNames.edit, slotProps.data.id)"><i  class="pi pi-pencil hover:bg-custom-main-400 rounded-full p-2 hover:bg-opacity-20" style="font-size: 1.2rem;" /></Link>
                         </template>
-                        <i v-if="hasAnyPermission([crudName + '_delete']) && actions.delete" class="pi pi-trash text-red-600 hover:bg-blue-400 rounded-full p-2 hover:bg-opacity-20" style="font-size: 1.2rem;" @click.stop="confirmDeleteSingle($event, slotProps.data)" />
+                        <i v-if="hasAnyPermission([crudName + '_delete']) && actions.delete" class="pi pi-trash text-red-600 hover:bg-custom-main-400 rounded-full p-2 hover:bg-opacity-20" style="font-size: 1.2rem;" @click.stop="confirmDeleteSingle($event, slotProps.data)" />
                     </template>
                 </Column>
 

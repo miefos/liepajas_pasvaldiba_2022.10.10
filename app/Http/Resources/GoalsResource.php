@@ -25,6 +25,7 @@ class GoalsResource extends JsonResource
                 'completeLevel' => $this->completeLevel->name,
                 'entity' => $this->entity ?? $this->user,
                 'comment' => $this->comment,
+                'editable' => $this->editableByCurrentUser() // indicates if the user can edit the specific goal
             ],
             'children' => GoalsResource::collection($this->subGoals)
         ];
