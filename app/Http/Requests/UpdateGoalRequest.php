@@ -21,8 +21,20 @@ class UpdateGoalRequest extends FormRequest
                 'required',
                 'unique:goals,name,' . request()->route('goal')->id,
             ],
+            'parent_goal_id' => [
+                'nullable',
+                'exists:goals,id',
+                new ParentGoalEntityShouldBeOneLevelAboveRequestedEntityLevel()
+            ],
             'entity_id' => [
+                'nullable',
                 'exists:entities,id',
+                'required_without:user_id',
+                new ParentGoalEntityShouldBeOneLevelAboveRequestedEntityLevel()
+            ],
+            'user_id' => [
+                'nullable',
+                'exists:users,id',
                 new ParentGoalEntityShouldBeOneLevelAboveRequestedEntityLevel()
             ],
         ];

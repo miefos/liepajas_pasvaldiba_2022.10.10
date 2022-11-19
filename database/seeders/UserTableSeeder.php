@@ -18,7 +18,7 @@ class UserTableSeeder extends Seeder
     {
         $password = 'password';
 
-        for ($i = 1; $i < 25; $i++) {
+        for ($i = 1; $i < 5 + 1; $i++) {
             User::create([
                 'name' => $faker->name('male'),
                 'email' => $faker->email(),

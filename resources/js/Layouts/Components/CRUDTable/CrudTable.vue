@@ -10,24 +10,26 @@
         </div>
 
         <template v-else>
-            <ConfirmPopup></ConfirmPopup>
             <DataTable
-                       ref="dt"
-                       :value="tableData" responsiveLayout="scroll" :paginator="pagination" :rows="perPage"
-                       paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
-                       :rowsPerPageOptions="[10,20,50,100]"
-                       currentPageReportTemplate="Rāda {first} - {last} no {totalRecords}"
-                       :globalFilterFields="searchFields"
-                       v-model:filters="filters"
-                       v-model:selection="selectedRows"
-                       dataKey="id"
-                       selectionMode="multiple"
-                       :metaKeySelection="false"
-                       class="p-datatable-sm"
+               ref="dt"
+               :value="tableData" :paginator="pagination" :rows="perPage"
+               paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
+               :rowsPerPageOptions="[10,25,50,100]"
+               currentPageReportTemplate="Rāda {first} - {last} no {totalRecords}"
+               :globalFilterFields="searchFields"
+               v-model:filters="filters"
+               v-model:selection="selectedRows"
+               dataKey="id"
+               selectionMode="multiple"
+               :metaKeySelection="false"
+               class="p-datatable-md"
+               :resizableColumns="true"
 
-                       v-model:expandedRows="expandedRows"
-                       rowGroupMode="subheader"
-                       :groupRowsBy="groupRowsBy"
+               filterDisplay="row"
+
+               v-model:expandedRows="expandedRows"
+               rowGroupMode="subheader"
+               :groupRowsBy="groupRowsBy"
             >
                 <template #header>
                     <div class="lg:flex space-y-1 md:space-y-0">
@@ -48,7 +50,7 @@
                             <Button v-if="hasAnyPermission([crudName + '_delete']) && actions.massDelete" icon="pi pi-trash" class="p-button-danger" @click="massDelete" :disabled="selectedRows.length < 1" label="Dzēst atzīmētos" />
                         </div>
                         <span class="flex-1"></span>
-                        <span class="w-full block lg:w-auto p-input-icon-left">
+                        <span class="w-full block lg:w-auto p-input-icon-left" v-if="searchable">
                             <i class="pi pi-search" />
                             <InputText class="w-full block lg:w-auto" v-model="filters['global'].value" placeholder="Meklēt..." />
                         </span>
@@ -58,49 +60,74 @@
                 <Column v-if="expandedRowsEnabled" :expander="true" headerStyle="width: 3rem" />
                 <Column selectionMode="multiple" headerStyle="width: 1em"></Column>
 
-                <Column
-                    v-for="column in columns"
-                    :field="column.name"
-                    :header="column.header"
-                    :sortable="column.sortable"
-                >
-                    <template v-if="column.type === 'dropdown'" #body="slotProps">
-                        <Dropdown
-                            :modelValue="getSlotPropsVal(slotProps, column.name)"
-                            :disabled="true"
-                            :options="listings[column.listing]"
-                            :optionLabel="column.label"
-                            :optionValue="column.value"
-                            class="w-full"
-                            style="pointer-events: all;"
-                            @click.stop=""
-                        />
-                    </template>
+                <template v-for="column in columns">
+                    <Column
+                        v-if="!column.hideInTable"
+                        :field="column.name"
+                        :header="column.header"
+                        :sortable="column.sortable"
+                        :showFilterMenu="false"
+                        :style="column.style"
+                    >
+                            <!-- Filters -->
+                            <template v-if="!column.noFilter && column.type === 'text' || column.type === 'textarea'" #filter="{filterModel,filterCallback}">
+                                <InputText type="text" v-model="filterModel.value" @keydown="filterCallback()" class="w-full"/>
+                            </template>
+                            <template v-else-if="!column.noFilter && column.type === 'dropdown'" #filter="{filterModel,filterCallback}">
+                                <MultiSelect style="max-width: 28rem;" v-model="filterModel.value" @change="filterCallback()" :options="listings[column.listing]" :optionLabel="column.label" :optionValue="column.value">
+                                    <template #option="slotProps">
+                                        <div>
+                                            <span>{{slotProps.option.name}}</span>
+                                        </div>
+                                    </template>
+                                </MultiSelect>
+                            </template>
 
-                    <template v-else-if="column.type === 'date'" #body="slotProps">
-<!--                        slotProps.data[column.name]-->
-                        <Calendar style="width:170px;" dateFormat="dd.mm.yy"  :model-value="getSlotPropsVal(slotProps, column.name)" :disabled="true" />
-                    </template>
+                            <!-- Body -->
+                            <template v-if="column.type === 'dropdown'" #body="slotProps">
+                                <Dropdown
+                                    :modelValue="getSlotPropsVal(slotProps, column.name)"
+                                    :disabled="true"
+                                    :options="listings[column.listing]"
+                                    :optionLabel="column.label"
+                                    :optionValue="column.value"
+                                    class="w-full"
+                                    style="pointer-events: all;"
+                                    @click.stop=""
+                                />
+                            </template>
 
-                    <template v-else-if="column.type === 'multiselect'" #body="slotProps">
-                        <div class="flex flex-wrap">
-                            <span
-                                v-for="theId in slotProps.data[column.name]"
-                                class="px-2 py-1 m-1 rounded-full text-blue-900 bg-blue-50 text-xs"
-                            >
-                                {{ listings[column.name].find(item => item.id === theId)[column.label] }}
-                            </span>
-                        </div>
-                    </template>
+                            <template v-else-if="column.type === 'date'" #body="slotProps">
+        <!--                        slotProps.data[column.name]-->
+                                <Calendar style="width:170px;" dateFormat="dd.mm.yy"  :model-value="getSlotPropsVal(slotProps, column.name)" :disabled="true" />
+                            </template>
 
-    <!--                <template v-else-if="column.tableColType === 'custom'" #body="slotProps">-->
-    <!--                    <slot :name="'custom-col-' + column.name" v-bind:slotProps="slotProps">-->
-    <!--                        <span class="accent-red-600">-->
-    <!--                            THIS SHOULD NOT APPEAR-->
-    <!--                        </span>-->
-    <!--                    </slot>-->
-    <!--                </template>-->
-                </Column>
+                            <template v-else-if="column.type === 'multiselect'" #body="slotProps">
+                                <div class="flex flex-wrap">
+                                    <span
+                                        v-for="theId in slotProps.data[column.name]"
+                                        class="px-2 py-1 m-1 rounded-full text-blue-900 bg-blue-50 text-xs"
+                                    >
+                                        {{ listings[column.name].find(item => item.id === theId)[column.label] }}
+                                    </span>
+                                </div>
+                            </template>
+
+                            <template v-else #body="slotProps">
+                                <span v-if="typeof slotProps.data[column.name] == 'string'" v-tooltip.top="column.showFullTextOnTooltip ? slotProps.data[column.name] : ''">
+                                    {{ slotProps.data[column.name].substring(0,40) }}{{ slotProps.data[column.name].length > 40 ? '...' : '' }}
+                                </span>
+                            </template>
+
+            <!--                <template v-else-if="column.tableColType === 'custom'" #body="slotProps">-->
+            <!--                    <slot :name="'custom-col-' + column.name" v-bind:slotProps="slotProps">-->
+            <!--                        <span class="accent-red-600">-->
+            <!--                            THIS SHOULD NOT APPEAR-->
+            <!--                        </span>-->
+            <!--                    </slot>-->
+            <!--                </template>-->
+                    </Column>
+                </template>
 
                 <Column :exportable="false" style="min-width:8rem" class="space-x-2">
                     <template #body="slotProps">
@@ -199,7 +226,6 @@ import Textarea from 'primevue/textarea';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import RadioButton from 'primevue/radiobutton';
-import ConfirmPopup from 'primevue/confirmpopup';
 import MultiSelect from 'primevue/multiselect';
 import ColumnGroup from 'primevue/columngroup';     //optional for column grouping
 import {FilterMatchMode,FilterOperator} from 'primevue/api';
@@ -255,11 +281,15 @@ export default {
         crudName: String,
         perPage: {
             type: Number,
-            default: 10
+            default: 25
         },
         specialPermissions: { // currently only for read implemented
             type: Object,
             default: {}
+        },
+        searchable: {
+            type: Boolean,
+            default: false
         }
     },
     components: {
@@ -277,7 +307,6 @@ export default {
         Textarea,
         Button,
         InputText,
-        ConfirmPopup,
         MultiSelect,
         Calendar,
         Link,
@@ -287,6 +316,9 @@ export default {
     data() {
         return {
             expandedRows: [],
+            filters: {
+                "global": {value: null, matchMode: FilterMatchMode.CONTAINS}
+            }
         }
     },
     methods: {
@@ -299,11 +331,19 @@ export default {
                 final_value = final_value[p]
             })
             return final_value
-        }
+        },
+    },
+    beforeMount() {
+        this.columns.forEach(col => {
+            if (!col.noFilter && (col.type === 'text' || col.type === 'textarea')) {
+                this.filters[col.name] = {value: null, matchMode: FilterMatchMode.CONTAINS}
+            } else if (!col.noFilter && col.type === 'dropdown') {
+                this.filters[col.name] = {value: null, matchMode: FilterMatchMode.IN}
+            }
+        })
     },
     setup (props, context) {
         const dt = ref(null) // automatically references
-        const confirm = useConfirm();
 
         const searchFields = computed(() => {
             return props.columns.map(column => {
@@ -333,10 +373,6 @@ export default {
 
         const createNewDialogOpen = ref(false)
         const editDialogOpen = ref(false)
-
-        const filters = ref({
-            'global': {value: null, matchMode: FilterMatchMode.CONTAINS}
-        });
 
         const massDelete = () => {
             if (!window.confirm('Patiešām izdzēst atzīmētos?'))
@@ -383,17 +419,11 @@ export default {
         }
 
         const confirmDeleteSingle = (event, data) => {
-            confirm.require({
-                target: event.currentTarget,
-                message: 'Esi pārliecināts, ka vēlies turpināt?',
-                icon: 'pi pi-exclamation-triangle',
-                accept: () => {
-                    useForm({}).delete(route(props.routeNames.singleDestroy, data.id), {
-                        onError: () => alert('error'),
-                        onSuccess: () => {}
-                    })
-                },
-            });
+            if (window.confirm('Patiešām izdzēst?'))
+                useForm({}).delete(route(props.routeNames.singleDestroy, data.id), {
+                    onError: () => alert('error'),
+                    onSuccess: () => {}
+                })
         }
 
         const exportCSV = () => {
@@ -401,7 +431,6 @@ export default {
         }
 
         return {
-            filters,
             createForm,
             editForm,
             startEdit,

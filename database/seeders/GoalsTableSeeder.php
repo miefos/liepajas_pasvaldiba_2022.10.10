@@ -121,18 +121,18 @@ class GoalsTableSeeder extends Seeder
             ],
         ]);
 
-        for ($i = 1; $i < 100; $i++) {
-            $user_id = rand(2,25);
-
-            $parentGoals = collect(User::findOrFail($user_id)->entity->goals()->withoutGlobalScopes()->get());
-
-            Goal::withoutGlobalScopes()->insert([
-                'name' => 'Mērķis #' . $i,
-                'description' => 'Mērķa apraksts',
-                'complete_level_id' => rand(1,3),
-                'parent_goal_id' => $parentGoals->count() > 0 ? $parentGoals->random()->id : null,
-                'user_id' => $user_id
-            ]);
-        }
+//        for ($i = 1; $i < 10; $i++) {
+//            $user_id = rand(2,25);
+//
+//            $parentGoals = collect(User::findOrFail($user_id)->entity->goals()->withoutGlobalScopes()->get());
+//
+//            Goal::withoutGlobalScopes()->insert([
+//                'name' => 'Mērķis #' . $i,
+//                'description' => 'Mērķa apraksts',
+//                'complete_level_id' => rand(1,3),
+//                'parent_goal_id' => $parentGoals->count() > 0 ? $parentGoals->random()->id : null,
+//                'user_id' => $user_id
+//            ]);
+//        }
     }
 }

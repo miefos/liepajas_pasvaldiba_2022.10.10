@@ -1,5 +1,3 @@
-import ConfirmationService from "primevue/confirmationservice";
-
 import "../css/app.css";
 
 import {createApp, h} from 'vue';
@@ -16,6 +14,7 @@ import "primevue/resources/themes/saga-blue/theme.css" //theme
 import "primevue/resources/primevue.min.css" //core css
 import "primeicons/primeicons.css" //icons
 import Tooltip from 'primevue/tooltip';
+import ConfirmationService from "primevue/confirmationservice";
 import store from './store'
 
 import ToastService from 'primevue/toastservice';

@@ -12,9 +12,9 @@ class CompleteLevelsTableSeeder extends Seeder
     public function run()
     {
         CompleteLevel::insert([
-            ['name' => 'Nav izpildīts', 'value' => 0],
-            ['name' => 'Daļēji izpildīts', 'value' => 1],
-            ['name' => 'Pilnībā izpildīts', 'value' => 2],
+            ['name' => 'Nav izpildīts'],
+            ['name' => 'Daļēji izpildīts'],
+            ['name' => 'Pilnībā izpildīts'],
         ]);
     }
 }

@@ -40,7 +40,6 @@ export default {
 
         const columns = [
             {type: 'text', name: 'name', header: 'Nosaukums', sortable: true, searchable: true, required: true},
-            {type: 'text', name: 'value', header: 'Izpildes vērtība (skaitlis)', sortable: true, required: true},
         ]
 
         return {

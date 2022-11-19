@@ -69,8 +69,8 @@ export default {
 
         const columns = [
             {type: 'text', name: 'name', header: 'Nosaukums', sortable: true, searchable: true, required: true},
-            {type: 'textarea', name: 'description', header: 'Apraksts', sortable: true, searchable: true},
-            {type: 'textarea', name: 'comment', header: 'Komentārs', sortable: true, searchable: true},
+            {type: 'textarea', name: 'description', header: 'Apraksts', sortable: true, searchable: true, style: "min-width: 10rem; max-width: 20rem", showFullTextOnTooltip: true},
+            {type: 'textarea', name: 'comment', header: 'Komentārs', sortable: true, searchable: true, hideInTable: true},
             {type: 'dropdown', name: 'parent_goal_id', label: 'name',  listing: 'goals', value: 'id', header: 'Virsmērķis', sortable: true},
             {type: 'dropdown', name: 'complete_level_id', label: 'name',  listing: 'completeLevels', value: 'id', header: 'Izpilde', sortable: true, required: true},
             {type: 'dropdown', name: 'entity_id', label: 'name',  listing: 'entities', value: 'id', header: 'Struktūrvienība', sortable: true},

@@ -78,7 +78,7 @@
                     </button>
 
                     <div class="flex-1 px-4 flex">
-                        <img class="" src="/storage/images/logo.png" alt="logo" />
+                        <img class="" :src="logoUrl" @error="logoUrl = alternativeLogoUrl" alt="logo" />
                     </div>
 
                     <div class="flex-1 px-4 flex justify-between sm:px-6 w-full lg:mx-auto lg:px-8">
@@ -192,7 +192,9 @@ export default {
     },
     data() {
       return {
-          selectedEntityVModel: null
+          selectedEntityVModel: null,
+          logoUrl: '/storage/images/logo.png',
+          alternativeLogoUrl: '/storage/app/public/images/logo.png'
       }
     },
     computed: {
@@ -222,7 +224,7 @@ export default {
             navigation,
             secondaryNavigation,
             sidebarOpen,
-            sidebarOpenDesktop
+            sidebarOpenDesktop,
         }
     },
 }

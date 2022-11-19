@@ -13,15 +13,12 @@ body {
 }
 
 .p-button {
+    color: white !important;
     background: #007560 !important;
 }
 
 .p-button-danger {
     background: #D02927 !important;
-}
-
-.p-button.p-button-text {
-    color: white !important;
 }
 
 /* scrollbar */

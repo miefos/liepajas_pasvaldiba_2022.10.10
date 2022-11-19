@@ -3,7 +3,9 @@
 namespace App\Rules;
 
 use App\Models\Entity;
+use App\Models\EntityLevel;
 use App\Models\Goal;
+use App\Models\User;
 use Illuminate\Contracts\Validation\Rule;
 
 class ParentGoalEntityShouldBeOneLevelAboveRequestedEntityLevel implements Rule
@@ -28,21 +30,22 @@ class ParentGoalEntityShouldBeOneLevelAboveRequestedEntityLevel implements Rule
     public function passes($attribute, $value)
     {
         $requestedEntityId = intval(request()->get('entity_id'));
+        $requestedUserId = intval(request()->get('user_id'));
         $requestedEntity = Entity::with('entityLevel', 'entityLevel.parentEntityLevel')->find($requestedEntityId);
-        $requestedEntityLevelId = $requestedEntity->entityLevel->id;
+        $requestedUser = User::with('entity')->find($requestedUserId);
 
         $parentGoalId = intval(request()->get('parent_goal_id'));
         $parentGoal = Goal::with('entity', 'entity.entityLevel', 'entity.entityLevel.subEntityLevels')->find($parentGoalId);
 
-        if (!$requestedEntity->entityLevel->parentEntityLevel) { // if it is the first structural level
-            if ($parentGoal) { // no parent goal should be set
-                return false;
-            } else {
-                return true;
-            }
+        if ($requestedEntity && $requestedUser) return false; // the goal cannot be owned by both - user and entity
+        if (!$requestedEntity && !$requestedUser) return false; // the goal cannot be owned by neither user nor entity
+
+        $requestedEntityLevelId = $requestedEntity ? $requestedEntity->entityLevel->id : EntityLevel::employeeLevel()->first()->id;
+
+        if (!$parentGoal) {
+                return $requestedEntity && !$requestedEntity->entityLevel->parentEntityLevel; // if parent goal is not set, only way that it is ok if the entity level is first
         }
 
-        if (!$parentGoal) return false;
         $allowedSubEntityLevels = $parentGoal->entity->entityLevel->subEntityLevels;
         $allowedEntityLevelIds = $allowedSubEntityLevels->pluck('id');
 
@@ -56,6 +59,6 @@ class ParentGoalEntityShouldBeOneLevelAboveRequestedEntityLevel implements Rule
      */
     public function message()
     {
-        return 'Šī struktūrvienība šim virsmērķim nav atbilstoša.';
+        return 'Šī struktūrvienība/darbinieks/virsmērķis kombinācija nav pieļaujama.';
     }
 }
