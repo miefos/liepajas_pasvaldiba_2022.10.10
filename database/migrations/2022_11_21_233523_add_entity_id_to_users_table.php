@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('user_invitations', function (Blueprint $table) {
-            $table->foreignId('entity_id');
+        Schema::table('users', function (Blueprint $table) {
+            $table->foreignId('entity_id')->nullable()->references('id')->on('entities');
         });
     }
 
@@ -25,7 +25,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('user_invitations', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             //
         });
     }

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('email');
             $table->string('invitation_token', 32);
+            $table->foreignId('entity_id');
             $table->unique(['invitation_token', 'used']);
             $table->boolean('used')->default(false);
             $table->timestamp('expire_at');
