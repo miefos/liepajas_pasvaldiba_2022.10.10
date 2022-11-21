@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->foreignId('parent_entity_id')->nullable()->references('id')->on('entities');
-            $table->foreignId('entity_level_id');
+            $table->foreignId('entity_level_id')->references('id')->on('entity_levels');
             $table->foreignId('supervisor_id')->references('id')->on('users');
             $table->boolean('is_root_node')->default(false);
         });

@@ -19,9 +19,9 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->string('comment')->nullable();
             $table->foreignId('parent_goal_id')->nullable()->references('id')->on('goals');
-            $table->foreignId('complete_level_id')->default(1);
-            $table->foreignId('entity_id')->nullable();
-            $table->foreignId('user_id')->nullable();
+            $table->foreignId('complete_level_id')->default(1)->references('id')->on('complete_levels');
+            $table->foreignId('entity_id')->nullable()->references('id')->on('entities');
+            $table->foreignId('user_id')->nullable()->references('id')->on('users')->cascadeOnDelete();
         });
     }
 
