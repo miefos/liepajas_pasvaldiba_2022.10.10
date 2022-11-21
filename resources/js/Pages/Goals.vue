@@ -20,7 +20,6 @@
             </template>
         </organization-chart>
         </div>
-
         <crud-table
             :tableData="goals"
             :listings="listings"
@@ -29,7 +28,44 @@
             title=""
             crud-name="goal"
             :route-names="routesName"
-        ></crud-table>
+        >
+            <template #audits="{auditsProp}">
+                <div>
+                    <h4 class="h-3 py-4 mb-4 font-semibold">Izpildes izmaiņas</h4>
+                </div>
+                <div class="flow-root">
+                    <ul role="list" class="-mb-8">
+                        <li v-for="(completeLevelChange, completeLevelChangeIdx) in auditsProp" :key="completeLevelChange.id">
+                            <div class="relative pb-8">
+                                <span v-if="completeLevelChangeIdx !== auditsProp.length - 1" class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true" />
+                                <div class="relative flex space-x-3">
+                                    <div>
+                                      <span class="h-8 w-8 rounded-full flex items-center justify-center ring-8 ring-white bg-custom-main-500">
+                                          <svg color="white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                              <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                                          </svg>
+                                      </span>
+                                    </div>
+                                    <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
+                                        <div>
+                                            <p class="text-sm text-gray-500">
+                                                Tika nomainīts no
+                                                <span class="font-semibold"> {{ findCompleteLevelNameById(completeLevelChange.old_values?.complete_level_id) }} </span>
+                                                uz
+                                                <span class="font-semibold"> {{ findCompleteLevelNameById(completeLevelChange.new_values?.complete_level_id) }} </span>
+                                            </p>
+                                        </div>
+                                        <div class="whitespace-nowrap text-right text-sm text-gray-500">
+                                            {{ dayjs(completeLevelChange.updated_at).fromNow() }}, {{ findUserNameById(completeLevelChange.user_id) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </template>
+        </crud-table>
     </app-layout>
 </template>
 
@@ -52,6 +88,16 @@ export default {
     data() {
       return {
           collapsedKeys: []
+      }
+    },
+    methods: {
+      findCompleteLevelNameById (id) {
+          const completeLevel = this.listings.completeLevels.find(level => level.id === id)
+          return typeof completeLevel == "undefined" ? "UNDEFINED" : completeLevel.name
+      },
+      findUserNameById(id) {
+          const user = this.listings.users.find(user => user.id === id)
+          return typeof user == "undefined" ? "UNDEFINED" : user.name
       }
     },
     setup() {

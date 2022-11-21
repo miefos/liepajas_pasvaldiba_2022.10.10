@@ -6,6 +6,7 @@ use App\Http\Resources\GoalsResource;
 use App\Models\CompleteLevel;
 use App\Models\Entity;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,7 +22,9 @@ class GoalsController extends Controller
     {
         abort_if(Gate::denies('goal_read'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $goals = Goal::all();
+        $goals = Goal::with(['audits' => function ($query) {
+            $query->orderBy('updated_at', 'desc');
+        }])->get();
 
         $goalsHierarchical = GoalsResource::collection(Goal::with([
             'subGoals',
@@ -64,7 +67,7 @@ class GoalsController extends Controller
         return back()->success(__('common.success.created'));
     }
 
-    public function update(UpdateGoalRequest $request, Goal $goal)
+    public function update(Request $request, Goal $goal)
     {
         $goal->update($request->all());
 

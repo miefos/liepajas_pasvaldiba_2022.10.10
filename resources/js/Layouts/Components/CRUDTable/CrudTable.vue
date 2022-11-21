@@ -205,6 +205,8 @@
 
                     <button type="submit" class="hidden"></button>
                 </form>
+                <slot name="audits" :auditsProp="auditsForEditForm">
+                </slot>
                 <template #footer>
                     <Button label="Atcelt" icon="pi pi-times" class="p-button-text" @click="hideEditDialog"/>
                     <Button label="Saglabāt" icon="pi pi-check" class="p-button-text" @click="$refs.theEditForm.requestSubmit()" />
@@ -293,6 +295,10 @@ export default {
         searchable: {
             type: Boolean,
             default: false
+        },
+        itIsGoalsPage: {
+            type: Boolean,
+            default: false
         }
     },
     components: {
@@ -373,6 +379,7 @@ export default {
         const selectedRows = ref([]);
         const createForm = useForm(emptyFieldsCreate)
         const editForm = useForm({'id': null, ...emptyFieldsEdit})
+        const auditsForEditForm = ref(null)
 
         const createNewDialogOpen = ref(false)
         const editDialogOpen = ref(false)
@@ -414,6 +421,7 @@ export default {
         }
 
         const startEdit = (newData) => {
+            auditsForEditForm.value = newData.audits
             editDialogOpen.value = true
             editForm.id = newData.id
             Object.keys(emptyFieldsEdit).forEach(fieldKey => {
@@ -448,7 +456,8 @@ export default {
             massDelete,
             exportCSV,
             dt,
-            searchFields
+            searchFields,
+            auditsForEditForm
         }
     }
 }

@@ -2,15 +2,26 @@
 
 namespace App\Models;
 
-use Error;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use OwenIt\Auditing\Contracts\Auditable;
 use Symfony\Component\HttpFoundation\Response;
 
-class Goal extends Model
+class Goal extends Model implements Auditable
 {
+    use \OwenIt\Auditing\Auditable;
     public $timestamps = false;
+
+    /**
+     * Attributes to include in the Audit.
+     *
+     * @var array
+     */
+    protected array $auditInclude = [
+        'complete_level_id',
+    ];
+
 
     protected $guarded = [];
 
@@ -52,8 +63,6 @@ class Goal extends Model
     // inefficient (!!!) authorization algorithm to goals
     // TODO improve the algorithm
     protected static function booted() {
-        parent::boot();
-
         static::addGlobalScope('authorizeGoal', function (Builder $builder) {
             $user = auth()->user();
 
