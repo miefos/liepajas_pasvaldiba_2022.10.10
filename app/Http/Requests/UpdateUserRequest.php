@@ -33,7 +33,6 @@ class UpdateUserRequest extends FormRequest
                 'array',
             ],
             'entity_id' => [
-                'nullable',
                 'exists:entities,id',
             ],
         ];

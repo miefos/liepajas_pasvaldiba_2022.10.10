@@ -22,6 +22,10 @@ body {
     background: white !important;
 }
 
+.p-column-filter-menu-button.p-column-filter-menu-button-active, .p-column-filter-menu-button.p-column-filter-menu-button-active:hover {
+    background-color: #cce3df !important;
+}
+
 .p-button-danger {
     background: #D02927 !important;
 }

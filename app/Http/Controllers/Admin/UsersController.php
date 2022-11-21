@@ -60,6 +60,7 @@ class UsersController extends Controller
         $userInvitation->expire_at = Carbon::now()->addDay();
         $userInvitation->assignNewToken();
         $userInvitation->syncRoles($request->input('roles', []));
+        $userInvitation->entity_id = intval($request->input('entity_id'));
 
         $userInvitation->save();
 
@@ -96,17 +97,20 @@ class UsersController extends Controller
 
         $input['roles'] = $invitation->roles()->pluck('id')->toArray();
         $input['email'] = $invitation->email;
+        $input['entity_id'] = $invitation->entity_id;
 
         Validator::make($input, [
             'email' => ['required', 'unique:users', 'email', 'max:255'],
             'roles' => ['nullable', 'array'],
-            'roles.*' => ['integer', 'exists:roles,id']
+            'roles.*' => ['integer', 'exists:roles,id'],
+            'entity_id' => ['exists:entities,id']
         ])->validate();
 
         $user = new User;
         $user->email = $invitation->email;
         $user->name = $request->input('name');
         $user->password = Hash::make($input['password']);
+        $user->entity_id = $invitation->entity_id;
 
         $user->syncRoles($input['roles']);
 
@@ -115,7 +119,7 @@ class UsersController extends Controller
         $invitation->used = true;
         $invitation->save();
 
-        return redirect()->home();
+        return redirect('/');
     }
 
     public function edit(User $user)

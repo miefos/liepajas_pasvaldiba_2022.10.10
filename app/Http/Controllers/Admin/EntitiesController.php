@@ -40,11 +40,11 @@ class EntitiesController extends Controller
             'users' => $users,
         ];
 
-        $entitiesWithUsers = [...$entities, ...$usersWithEntityAssigned];
+//        $entitiesWithUsers = [...$entities, ...$usersWithEntityAssigned];
 
         return Inertia::render('Entities', [
             'entitiesHierarchical' => $entitiesHierarchical,
-            'entities' => EntitiesForTableResource::collection($entitiesWithUsers)->collection,
+            'entities' => EntitiesForTableResource::collection($entities)->collection,
             'listings' => $listings
         ]);
     }

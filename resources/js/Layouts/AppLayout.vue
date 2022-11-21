@@ -149,8 +149,8 @@ import Dropdown from "primevue/dropdown";
 import {mapGetters} from "vuex";
 
 const navigation = [
-    { name: 'Sākums', routeName: 'home', icon: HomeIcon},
-    {name: 'Goals', routeName: 'goals.index', icon: CollectionIcon, can: ['goal_read']},
+    // { name: 'Sākums', routeName: 'home', icon: HomeIcon},
+    {name: 'Mērķi', routeName: 'goals.index', icon: CollectionIcon, can: ['goal_read']},
 ]
 const secondaryNavigation = [
     {name: 'Struktūrvienības', routeName: 'entities.index', icon: CollectionIcon, can: ['entity_read']},

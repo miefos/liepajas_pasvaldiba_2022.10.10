@@ -38,6 +38,9 @@ class InviteUserRequest extends FormRequest
                 'nullable',
                 'array',
             ],
+            'entity_id' => [
+                'exists:entities,id',
+            ],
         ];
     }
 }

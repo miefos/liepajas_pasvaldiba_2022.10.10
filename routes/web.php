@@ -28,9 +28,9 @@ Route::post('register', 'App\Http\Controllers\Admin\UsersController@store')
     ->name('register.store');
 
 Route::group(['namespace' => 'App\Http\Controllers\Admin', 'middleware' => ['auth', 'verified']], function () {
-
-    Route::get('/', 'HomeController@index')
-        ->name('home');
+    Route::get('/', function() {
+        return redirect()->route('goals.index');
+    })->name('home');
 
     // Entities
     Route::delete('entities/destroy', 'EntitiesController@massDestroy')->name('entities.massDestroy');
