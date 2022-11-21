@@ -59,7 +59,7 @@ class Goal extends Model
 
             abort_if(!$user,Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-            if ($user->hasRole('Super Admin')) return $builder;
+            if ($user->hasRole('Super Admin') || $user->hasRole('Admin')) return $builder;
 
             $mainEntity = $user->entity;
             $parentEntityIds = [];

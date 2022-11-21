@@ -17,8 +17,16 @@ body {
     background: #007560 !important;
 }
 
+.p-button-outlined {
+    color: #007560 !important;
+    background: white !important;
+}
+
 .p-button-danger {
     background: #D02927 !important;
+}
+.p-column-filter.p-fluid.p-column-filter-menu {
+    margin-left: 0;
 }
 
 /* scrollbar */

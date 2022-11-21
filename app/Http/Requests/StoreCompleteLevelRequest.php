@@ -20,10 +20,6 @@ class StoreCompleteLevelRequest extends FormRequest
                 'string',
                 'required',
                 'unique:complete_levels'
-            ],
-            'value' => [
-                'int',
-                'required'
             ]
         ];
     }

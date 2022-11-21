@@ -19,10 +19,6 @@ class UpdateCompleteLevelRequest extends FormRequest
                 'string',
                 'required',
                 'unique:complete_levels,name,' . request()->route('complete_level')->id,
-            ],
-            'value' => [
-                'int',
-                'required'
             ]
         ];
     }

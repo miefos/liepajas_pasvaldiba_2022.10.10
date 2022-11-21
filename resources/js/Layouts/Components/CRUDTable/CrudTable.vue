@@ -25,7 +25,7 @@
                class="p-datatable-md"
                :resizableColumns="true"
 
-               filterDisplay="row"
+               filterDisplay="menu"
 
                v-model:expandedRows="expandedRows"
                rowGroupMode="subheader"
@@ -66,15 +66,18 @@
                         :field="column.name"
                         :header="column.header"
                         :sortable="column.sortable"
-                        :showFilterMenu="false"
                         :style="column.style"
+                        :showFilterMatchModes="!(!column.noFilter && column.type === 'dropdown')"
                     >
                             <!-- Filters -->
                             <template v-if="!column.noFilter && column.type === 'text' || column.type === 'textarea'" #filter="{filterModel,filterCallback}">
-                                <InputText type="text" v-model="filterModel.value" @keydown="filterCallback()" class="w-full"/>
+                                <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()" class="w-full"/>
                             </template>
                             <template v-else-if="!column.noFilter && column.type === 'dropdown'" #filter="{filterModel,filterCallback}">
-                                <MultiSelect style="max-width: 28rem;" v-model="filterModel.value" @change="filterCallback()" :options="listings[column.listing]" :optionLabel="column.label" :optionValue="column.value">
+                                <div class="font-semibold pb-2">
+                                    Izvēlies vienu vai vairākus
+                                </div>
+                                <MultiSelect style="max-width: 20rem;" v-model="filterModel.value" :options="listings[column.listing]" :optionLabel="column.label" :optionValue="column.value">
                                     <template #option="slotProps">
                                         <div>
                                             <span>{{slotProps.option.name}}</span>
@@ -336,7 +339,7 @@ export default {
     beforeMount() {
         this.columns.forEach(col => {
             if (!col.noFilter && (col.type === 'text' || col.type === 'textarea')) {
-                this.filters[col.name] = {value: null, matchMode: FilterMatchMode.CONTAINS}
+                this.filters[col.name] = {operator: FilterOperator.AND, constraints: [{value: null, matchMode: FilterMatchMode.CONTAINS}]}
             } else if (!col.noFilter && col.type === 'dropdown') {
                 this.filters[col.name] = {value: null, matchMode: FilterMatchMode.IN}
             }
