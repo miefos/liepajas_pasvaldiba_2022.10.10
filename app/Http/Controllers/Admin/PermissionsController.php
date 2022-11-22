@@ -22,33 +22,4 @@ class PermissionsController extends Controller
         return Inertia::render('Users/permissions', ['permissions' => $permissions]);
     }
 
-    public function store(StorePermissionRequest $request)
-    {
-        Permission::create($request->all());
-
-        return back()->success(__('common.success.created'));
-    }
-
-    public function update(UpdatePermissionRequest $request, Permission $permission)
-    {
-        $permission->update($request->all());
-
-        return back()->success(__('common.success.updated'));
-    }
-
-    public function destroy(Permission $permission)
-    {
-        abort_if(Gate::denies('permission_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $permission->delete();
-
-        return back()->success(__('common.success.deleted'));
-    }
-
-    public function massDestroy(MassDestroyPermissionRequest $request)
-    {
-        Permission::whereIn('id', request('ids'))->delete();
-
-        return back()->success(__('common.success.massDeleted'));
-    }
 }

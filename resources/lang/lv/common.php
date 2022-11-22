@@ -18,6 +18,17 @@ return [
       'productNotFound' => 'Produkts netika atrasts',
       'productIsNotInTheSameProductGroup' => 'Produkts nav tajā pašā produkta grupā',
       'productDoesNotHaveProductGroup' => 'Izvēlētajam produktam nav produkta grupa, kurā būtu produkti',
+      'cantDeleteThisRole' => 'Nevar izdzēst šo lomu',
+      'goalHasSubgoals' => 'Šim mērķim ir apakšmērķi. Sākumā jāizdzēš tie',
+      'entityHasSubentities' => 'Šai struktūrai ir apakšstruktūras. Sākumā jāizdzēš tās',
+      'entityHasGoals' => 'Šai struktūrai ir mērķi. Sākumā jāizdzēš tie',
+      'entityLevelHasEntities' => 'Šim struktūras līmenim ir piesaistītas struktūras. Sākumā jāizdzēš tās',
+      'entityLevelHasSubentityLevels' => 'Šim struktūras līmenim ir apakšstruktūras līmeņi. Sākumā jāizdzēš tie',
+      'completeLevelHasGoals' => 'Šim pabeigtības līmenim ir piesaistīti mērķi. Sākumā jāizdzēš tie',
+      'userHasGoals' => 'Šim lietotājam ir piesaistīti mērķi. Sākumā jāizdzēš tie',
+      'userHasSupervisedEntities' => 'Šis lietotājs ir vadītājs struktūrvienībām. Sākumā jāatceļ vadītāja loma',
+      'userCannotBeDeleted' => 'Šis lietotājs nevar tikt izdzēsts',
+
   ],
   'orders' => [
       'defaultEmailTitle' => 'Pasūtījuma statuss nomainīts',

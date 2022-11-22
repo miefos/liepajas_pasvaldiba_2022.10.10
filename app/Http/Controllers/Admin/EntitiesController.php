@@ -67,6 +67,14 @@ class EntitiesController extends Controller
     {
         abort_if(Gate::denies('entity_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        if ($entity->goals()->count()) {
+            return back()->danger(__('common.error.entityHasGoals'));
+        }
+
+        if ($entity->subEntities()->count()) {
+            return back()->danger(__('common.error.entityHasSubentities'));
+        }
+
         $entity->delete();
 
         return back()->success(__('common.success.deleted'));
@@ -74,7 +82,19 @@ class EntitiesController extends Controller
 
     public function massDestroy(MassDestroyEntityRequest $request)
     {
-        Entity::whereIn('id', request('ids'))->delete();
+        $entities = Entity::whereIn('id', request('ids'));
+        $entitiesArr = $entities->get();
+        foreach ($entitiesArr as $entity) {
+            if ($entity->goals()->count()) {
+                return back()->danger(__('common.error.entityHasGoals'));
+            }
+
+            if ($entity->subEntities()->count()) {
+                return back()->danger(__('common.error.entityHasSubentities'));
+            }
+        }
+
+        $entities->delete();
 
         return back()->success(__('common.success.massDeleted'));
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use Symfony\Component\HttpFoundation\Response;
@@ -55,6 +56,14 @@ class EntityLevelsController extends Controller
     {
         abort_if(Gate::denies('entity_level_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        if ($entity_level->subEntityLevels()->count()) {
+            return back()->danger(__('common.error.entityLevelHasSubentityLevels'));
+        }
+
+        if ($entity_level->entities()->count()) {
+            return back()->danger(__('common.error.entityLevelHasEntities'));
+        }
+
         $entity_level->delete();
 
         return back()->success(__('common.success.deleted'));
@@ -62,7 +71,19 @@ class EntityLevelsController extends Controller
 
     public function massDestroy(MassDestroyEntityLevelRequest $request)
     {
-        EntityLevel::whereIn('id', request('ids'))->delete();
+        $entityLevels = EntityLevel::whereIn('id', request('ids'));
+        $entityLevelsArr = $entityLevels->get();
+        foreach ($entityLevelsArr as $entityLevel) {
+            if ($entityLevel->subEntityLevels()->count()) {
+                return back()->danger(__('common.error.entityLevelHasSubentityLevels'));
+            }
+
+            if ($entityLevel->entities()->count()) {
+                return back()->danger(__('common.error.entityLevelHasEntities'));
+            }
+        }
+
+        $entityLevels->delete();
 
         return back()->success(__('common.success.massDeleted'));
     }

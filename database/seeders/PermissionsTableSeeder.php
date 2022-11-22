@@ -13,19 +13,7 @@ class PermissionsTableSeeder extends Seeder
 
         $permissions = [
             [
-                'name' => 'permission_create',
-            ],
-            [
                 'name' => 'permission_read',
-            ],
-            [
-                'name' => 'permission_update',
-            ],
-            [
-                'name' => 'permission_delete',
-            ],
-            [
-                'name' => 'permission_export',
             ],
             [
                 'name' => 'role_create',

@@ -3,11 +3,11 @@
         <crud-table
             :tableData="permissions"
             :columns="columns"
-            :fields="fields"
-            :route-names="routesName"
+            :route-names="[]"
             title="Atļaujas"
             crud-name="permission"
-            :per-page="50"
+            :actions="{create: false,export: true,update: false,delete: false,massDelete: false}"
+            :per-page="100"
         ></crud-table>
     </app-layout>
 </template>
@@ -22,33 +22,13 @@ export default {
     },
     components: {CrudTable},
     setup() {
-        const labels = {
-            createHeader: 'Izveidot atļauju',
-            editHeader: 'Atjaunot atļauju'
-        }
-
-        const routesName = {
-            massDestroy: 'permissions.massDestroy',
-            updateSingle: 'permissions.update',
-            storeSingle: 'permissions.store',
-            singleDestroy: 'permissions.destroy'
-        }
 
         const columns = [
             {type: 'text', name: 'name', header: 'Name', sortable: true, searchable: true, required: true},
         ]
 
-        const fields = [
-            {name: 'name'},
-        ]
-
-
-
         return {
             columns,
-            fields,
-            labels,
-            routesName,
         }
     }
 }

@@ -8,6 +8,7 @@ class HomeController
 {
     public function index()
     {
+        dd('404'); // not used currently
         $notifications = auth()->user()->notifications;
 
         return Inertia::render('Dashboard', [

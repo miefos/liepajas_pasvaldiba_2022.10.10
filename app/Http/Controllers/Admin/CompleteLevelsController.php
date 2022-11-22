@@ -40,6 +40,10 @@ class CompleteLevelsController extends Controller
     {
         abort_if(Gate::denies('complete_level_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        if ($complete_level->goals()->count()) {
+            return back()->danger(__('common.error.completeLevelHasGoals'));
+        }
+
         $complete_level->delete();
 
         return back()->success(__('common.success.deleted'));
@@ -47,7 +51,16 @@ class CompleteLevelsController extends Controller
 
     public function massDestroy(MassDestroyCompleteLevelRequest $request)
     {
-        CompleteLevel::whereIn('id', request('ids'))->delete();
+        $completeLevels = CompleteLevel::whereIn('id', request('ids'));
+        $completeLevelsArr = $completeLevels->get();
+
+        foreach ($completeLevelsArr as $completeLevel) {
+            if ($completeLevel->goals()->count()) {
+                return back()->danger(__('common.error.completeLevelHasGoals'));
+            }
+        }
+
+        $completeLevels->delete();
 
         return back()->success(__('common.success.massDeleted'));
     }

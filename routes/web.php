@@ -41,7 +41,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin', 'middleware' => ['aut
     Route::apiResource('entity_levels', 'EntityLevelsController');
 
     // Complete Levels
-    Route::delete('complete_levels/destroy', 'CompleteLevels@massDestroy')->name('complete_levels.massDestroy');
+    Route::delete('complete_levels/destroy', 'CompleteLevelsController@massDestroy')->name('complete_levels.massDestroy');
     Route::apiResource('complete_levels', 'CompleteLevelsController');
 
     // Goals
@@ -49,8 +49,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin', 'middleware' => ['aut
     Route::apiResource('goals', 'GoalsController');
 
     // Permissions
-    Route::delete('permissions/destroy', 'PermissionsController@massDestroy')->name('permissions.massDestroy');
-    Route::apiResource('permissions', 'PermissionsController');
+    Route::get('/permissions', 'PermissionsController@index')->name('permissions.index');
 
     // Roles
     Route::delete('roles/destroy', 'RolesController@massDestroy')->name('roles.massDestroy');

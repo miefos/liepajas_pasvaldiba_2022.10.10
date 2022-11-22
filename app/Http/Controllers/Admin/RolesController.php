@@ -54,6 +54,10 @@ class RolesController extends Controller
     {
         abort_if(Gate::denies('role_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        if ($role->name === 'Super Admin') {
+            return back()->danger(__('common.error.cantDeleteThisRole'));
+        }
+
         $role->delete();
 
         return back()->success(__('common.success.deleted'));
@@ -61,7 +65,14 @@ class RolesController extends Controller
 
     public function massDestroy(MassDestroyRoleRequest $request)
     {
-        Role::whereIn('id', request('ids'))->delete();
+        $roles = Role::whereIn('id', request('ids'));
+        $rolesArr = $roles->get();
+        foreach ($rolesArr as $role) {
+            if ($role->name === 'Super Admin')
+                return back()->danger(__('common.error.cantDeleteThisRole'));
+        }
+
+        $roles->delete();
 
         return back()->success(__('common.success.massDeleted'));
     }

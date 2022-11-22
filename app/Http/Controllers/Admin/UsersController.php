@@ -145,6 +145,9 @@ class UsersController extends Controller
     {
         abort_if(Gate::denies('user_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        if ($errMsg = $user->userIsNotDeletable())
+            return back()->danger($errMsg);
+
         $user->delete();
 
         return back()->success(__('common.success.deleted'));
@@ -152,7 +155,14 @@ class UsersController extends Controller
 
     public function massDestroy(MassDestroyUserRequest $request)
     {
-        User::whereIn('id', request('ids'))->delete();
+        $users = User::whereIn('id', request('ids'));
+        $usersArr = $users->get();
+        foreach ($usersArr as $user) {
+            if ($errMsg = $user->userIsNotDeletable())
+                return back()->danger($errMsg);
+        }
+
+        $users->delete();
 
         return back()->success(__('common.success.massDeleted'));
     }

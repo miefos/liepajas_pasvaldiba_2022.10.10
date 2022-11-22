@@ -29,18 +29,16 @@
         </div>
     </div>
     <Dialog v-model:visible="persistentDialogVisible" :modal="true" @hide="persistentData = null" :dismissableMask="true">
-        <div v-for="(message_type, key) in persistentData.text" :key="key">
-            <template v-if="message_type.length > 0">
-                <div v-if="key === 'errors'" class="text-red-500 mt-2 text-lg font-medium">
-                    Neizdevās
-                </div>
-                <div v-else-if="key === 'success'" class="text-green-500 mt-2 text-lg font-medium">
-                    Izdevās
-                </div>
-                <div v-for="(message, index) in message_type" :key="message+index">
-                    {{ message }}
-                </div>
-            </template>
+        <div v-for="(message_text, message_type) in persistentData?.text" :key="key">
+            <div v-if="message_type === 'danger'" class="text-red-500 mt-2 text-lg font-medium">
+                {{ message_text }}
+            </div>
+            <div v-else-if="message_type === 'success'" class="text-green-500 mt-2 text-lg font-medium">
+                {{ message_text }}
+            </div>
+            <div v-else>
+                {{ message_type }}: {{ message_text }}
+            </div>
         </div>
     </Dialog>
 </template>

@@ -97,4 +97,22 @@ class User extends Authenticatable
     public function directlySupervisedEmployees() {
         return $this->hasManyThrough(User::class, Entity::class, 'supervisor_id');
     }
+
+    public function userIsNotDeletable() {
+        if ($this->hasRole('Super Admin')) {
+            return __('common.error.userCannotBeDeleted'); // err msg
+        }
+
+        if ($this->goals()->count()) {
+            return __('common.error.userHasGoals'); // err msg
+        }
+
+        if ($this->supervisedEntities()->count()) {
+            return __('common.error.userHasSupervisedEntities'); // err msg
+        }
+
+        dd($this->supervisedEntities()->count());
+
+        return false; // can be deleted
+    }
 }

@@ -33,6 +33,16 @@ body {
     margin-left: 0;
 }
 
+/*@media only screen and (max-width: 768px) {*/
+/*    .p-dialog {*/
+/*        width: 90% !important;*/
+/*    }*/
+/*}*/
+
+/*.p-dialog {*/
+/*    width: 100% !important;*/
+/*}*/
+
 /* scrollbar */
 ::-webkit-scrollbar {
     width: 8px;

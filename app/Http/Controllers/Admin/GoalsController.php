@@ -78,6 +78,10 @@ class GoalsController extends Controller
     {
         abort_if(Gate::denies('goal_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        if ($goal->subGoals()->count() > 0) {
+            return back()->danger(__('common.error.goalHasSubgoals'));
+        }
+
         $goal->delete();
 
         return back()->success(__('common.success.deleted'));
@@ -85,7 +89,15 @@ class GoalsController extends Controller
 
     public function massDestroy(MassDestroyGoalRequest $request)
     {
-        Goal::whereIn('id', request('ids'))->delete();
+        $goals = Goal::whereIn('id', request('ids'));
+        $goalsArr = $goals->get();
+        foreach ($goalsArr as $goal) {
+            if ($goal->subGoals()->count() > 0) {
+                return back()->danger(__('common.error.goalHasSubgoals'));
+            }
+        }
+
+        $goals->delete();
 
         return back()->success(__('common.success.massDeleted'));
     }
