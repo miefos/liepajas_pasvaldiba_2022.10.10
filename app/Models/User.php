@@ -111,8 +111,6 @@ class User extends Authenticatable
             return __('common.error.userHasSupervisedEntities'); // err msg
         }
 
-        dd($this->supervisedEntities()->count());
-
         return false; // can be deleted
     }
 }

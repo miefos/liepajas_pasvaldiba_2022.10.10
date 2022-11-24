@@ -2,6 +2,7 @@
 
 namespace App\Actions\Jetstream;
 
+use App\Exceptions\CustomException;
 use Laravel\Jetstream\Contracts\DeletesUsers;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -16,7 +17,7 @@ class DeleteUser implements DeletesUsers
     public function delete($user)
     {
         if ($errMsg = $user->userIsNotDeletable()) {
-            die($errMsg);
+            throw new CustomException($errMsg);
         }
 
         $user->deleteProfilePhoto();

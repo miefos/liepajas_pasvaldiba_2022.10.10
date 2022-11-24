@@ -2,13 +2,13 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Entity;
-use App\Models\Goal;
 use App\Rules\ParentGoalEntityShouldBeOneLevelAboveRequestedEntityLevel;
+use App\Services\GoalService;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Response;
 use Illuminate\Validation\Factory;
+use Symfony\Component\HttpFoundation\Response as HttpResponse;
 
 class StoreGoalRequest extends FormRequest
 {
@@ -23,7 +23,6 @@ class StoreGoalRequest extends FormRequest
             'name' => [
                 'string',
                 'required',
-                'unique:goals'
             ],
             'parent_goal_id' => [
                 'nullable',

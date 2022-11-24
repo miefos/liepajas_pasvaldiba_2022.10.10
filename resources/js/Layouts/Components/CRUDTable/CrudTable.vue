@@ -208,8 +208,10 @@
                 <slot name="audits" :auditsProp="auditsForEditForm">
                 </slot>
                 <template #footer>
-                    <Button label="Atcelt" icon="pi pi-times" class="p-button-text" @click="hideEditDialog"/>
-                    <Button label="Saglabāt" icon="pi pi-check" class="p-button-text" @click="$refs.theEditForm.requestSubmit()" />
+                    <div class="mt-6">
+                        <Button label="Atcelt" icon="pi pi-times" class="p-button-text" @click="hideEditDialog"/>
+                        <Button label="Saglabāt" icon="pi pi-check" class="p-button-text" @click="$refs.theEditForm.requestSubmit()" />
+                    </div>
                 </template>
             </Dialog>
         </template>

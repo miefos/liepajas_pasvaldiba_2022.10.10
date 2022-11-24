@@ -29,7 +29,7 @@
             crud-name="goal"
             :route-names="routesName"
         >
-            <template #audits="{auditsProp}">
+            <template #audits="{auditsProp}" v-if="auditsProp">
                 <div>
                     <h4 class="h-3 py-4 mb-4 font-semibold">Izpildes izmaiņas</h4>
                 </div>

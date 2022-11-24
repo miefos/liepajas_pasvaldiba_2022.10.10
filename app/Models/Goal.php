@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\GoalService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -46,25 +47,14 @@ class Goal extends Model implements Auditable
     }
 
     public function editableByCurrentUser() {
-        $user = Auth::user();
-
-        if (!$user) {
-            return false;
-        }
-
-        // allow edit if the user is specified in the goal
-        if ($this->user && $this->user->id === $user->id) {
-            return true;
-        }
-
-        return false;
+        return GoalService::editableByCurrentUser($this);
     }
 
     // inefficient (!!!) authorization algorithm to goals
     // TODO improve the algorithm
     protected static function booted() {
         static::addGlobalScope('authorizeGoal', function (Builder $builder) {
-            $user = auth()->user();
+            $user = Auth::user();
 
             abort_if(!$user,Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -104,7 +94,6 @@ class Goal extends Model implements Auditable
             foreach ($directlySupervisedEmployees as $directlySupervisedEmployee) {
                 $directlySupervisedEmployeeIds[] = $directlySupervisedEmployee->id;
             }
-
 
             return $builder->with('entity')
                 // if any of user's goals are subgoal of another, show the parent goal of subgoal also

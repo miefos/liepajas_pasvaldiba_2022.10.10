@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Goal;
 use App\Rules\ParentGoalEntityShouldBeOneLevelAboveRequestedEntityLevel;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Http\FormRequest;
+use Symfony\Component\HttpFoundation\Response;
 
 class UpdateGoalRequest extends FormRequest
 {
@@ -19,7 +21,6 @@ class UpdateGoalRequest extends FormRequest
             'name' => [
                 'string',
                 'required',
-                'unique:goals,name,' . request()->route('goal')->id,
             ],
             'parent_goal_id' => [
                 'nullable',

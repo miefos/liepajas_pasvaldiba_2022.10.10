@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exceptions\CustomException;
 use App\Http\Resources\GoalsResource;
 use App\Models\CompleteLevel;
 use App\Models\Entity;
 use App\Models\User;
+use App\Services\GoalService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Http;
 use Inertia\Inertia;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Controllers\Controller;
@@ -62,13 +65,22 @@ class GoalsController extends Controller
 
     public function store(StoreGoalRequest $request)
     {
+        if (!GoalService::creatableByCurrentUser()) {
+            throw new CustomException(__('common.error.goalCannotBeCreated'));
+        }
+
         Goal::create($request->all());
 
         return back()->success(__('common.success.created'));
     }
 
-    public function update(Request $request, Goal $goal)
+    public function update(UpdateGoalRequest $request, Goal $goal)
     {
+        // check if the goal is editable by the user
+        if (!$goal->editableByCurrentUser()) {
+            throw new CustomException(__('common.error.goalCannotBeEdited'));
+        }
+
         $goal->update($request->all());
 
         return back()->success(__('common.success.updated'));

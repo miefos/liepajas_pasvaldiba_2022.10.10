@@ -28,11 +28,7 @@ return [
       'userHasGoals' => 'Šim lietotājam ir piesaistīti mērķi. Sākumā jāizdzēš tie',
       'userHasSupervisedEntities' => 'Šis lietotājs ir vadītājs struktūrvienībām. Sākumā jāatceļ vadītāja loma',
       'userCannotBeDeleted' => 'Šis lietotājs nevar tikt izdzēsts',
-
-  ],
-  'orders' => [
-      'defaultEmailTitle' => 'Pasūtījuma statuss nomainīts',
-      'cannotUpdateInThisStatus' => 'Nevar veikt šo darbību šajā pasūtījuma statusā',
-      'notAllowedToReserveProducts' => 'Jūs neesat autorizēts veikt izmaiņas rezervētajos produktos šajā pasūtījumā'
+      'goalCannotBeEdited' => 'Jūs nevarat labot šo mērķi, jo nav atbilstoša saistība ar šo mērķi',
+      'goalCannotBeCreated' => 'Jūs nevarat izveidot šādu mērķi, jo nav atbilstoša saistība ar paredzamo mērķa īpašnieku',
   ]
 ];
