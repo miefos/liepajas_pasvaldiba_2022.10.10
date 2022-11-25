@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Exceptions\CustomException;
-use App\Http\Resources\GoalsResource;
+use App\Http\Resources\GoalsHierarchicalResource;
+use App\Http\Resources\GoalsSimpleResource;
 use App\Models\CompleteLevel;
 use App\Models\Entity;
 use App\Models\User;
@@ -25,11 +26,11 @@ class GoalsController extends Controller
     {
         abort_if(Gate::denies('goal_read'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $goals = Goal::with(['audits' => function ($query) {
+        $goals = GoalsSimpleResource::collection(Goal::with(['audits' => function ($query) {
             $query->orderBy('updated_at', 'desc');
-        }])->get();
+        }])->get())->collection;
 
-        $goalsHierarchical = GoalsResource::collection(Goal::with([
+        $goalsHierarchical = GoalsHierarchicalResource::collection(Goal::with([
             'subGoals',
             'subGoals.subGoals',
             'subGoals.subGoals.subGoals',

@@ -23,7 +23,6 @@ class Goal extends Model implements Auditable
         'complete_level_id',
     ];
 
-
     protected $guarded = [];
 
     public function parentGoal () {

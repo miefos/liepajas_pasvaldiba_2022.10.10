@@ -135,7 +135,8 @@
                 <Column :exportable="false" style="min-width:8rem" class="space-x-2">
                     <template #body="slotProps">
                         <template v-if="hasAnyPermission([crudName + '_update']) && actions.update">
-                            <i v-if="!routeNames.edit" class="pi pi-pencil hover:bg-custom-main-400 rounded-full p-2 hover:bg-opacity-20" style="font-size: 1.2rem;" @click.stop="startEdit(slotProps.data)" />
+                            <i v-if="!routeNames.edit && requireEditPermissionPerRow && slotProps.data.editable" class="pi pi-pencil hover:bg-custom-main-400 rounded-full p-2 hover:bg-opacity-20" style="font-size: 1.2rem;" @click.stop="() => {startEdit(slotProps.data); viewOnly = false}" />
+                            <i v-else-if="!routeNames.edit" class="pi pi-eye hover:bg-custom-main-400 rounded-full p-2 hover:bg-opacity-20" style="font-size: 1.2rem;" @click.stop="() => {startEdit(slotProps.data); viewOnly = true}" />
                             <Link v-else :href="route(routeNames.edit, slotProps.data.id)"><i  class="pi pi-pencil hover:bg-custom-main-400 rounded-full p-2 hover:bg-opacity-20" style="font-size: 1.2rem;" /></Link>
                         </template>
                         <i v-if="hasAnyPermission([crudName + '_delete']) && actions.delete" class="pi pi-trash text-red-600 hover:bg-custom-main-400 rounded-full p-2 hover:bg-opacity-20" style="font-size: 1.2rem;" @click.stop="confirmDeleteSingle($event, slotProps.data)" />
@@ -192,12 +193,11 @@
 
                     <div class="field" v-for="column in columns.filter(column => !(column['hideOnEdit']))">
                         <label :for="'edit-' + column.name">{{ column.header }}<span v-if="column.required" class="text-red-500">*</span></label>
-
-                        <InputText :name="column.name" v-if="column.type === 'text'" :id="'edit-' + column.name" v-model.trim="editForm[column.name]" :required="column.required" autofocus :class="{'p-invalid': editForm.errors[column.name]}" />
-                        <Textarea :name="column.name" v-else-if="column.type === 'textarea'" :id="'edit-' + column.name" v-model.trim="editForm[column.name]" :required="column.required" autofocus :class="{'p-invalid': editForm.errors[column.name]}" />
-                        <Dropdown :name="column.name" v-else-if="column.type === 'dropdown'" :id="'edit-' + column.name" v-model="editForm[column.name]" :options="[{name: '-', id: null}, ...listings[column.listing]]" :optionLabel="column.label" :optionValue="column.value" :class="{'p-invalid': editForm.errors[column.name]}" />
-                        <Calendar :name="column.name" v-else-if="column.type === 'date'" :id="'edit-' + column.name" v-model="editForm[column.name]" :class="{'p-invalid': editForm.errors[column.name]}" />
-                        <MultiSelect :name="column.name" v-else-if="column.type === 'multiselect'" :id="'edit-' + column.name" v-model="editForm[column.name]" :options="listings[column.listing]" :optionLabel="column.label" :optionValue="column.value" :filter="true"/>
+                        <InputText :disabled="viewOnly" :name="column.name" v-if="column.type === 'text'" :id="'edit-' + column.name" v-model.trim="editForm[column.name]" :required="column.required" autofocus :class="{'p-invalid': editForm.errors[column.name]}" />
+                        <Textarea :disabled="viewOnly" :name="column.name" v-else-if="column.type === 'textarea'" :id="'edit-' + column.name" v-model.trim="editForm[column.name]" :required="column.required" autofocus :class="{'p-invalid': editForm.errors[column.name]}" />
+                        <Dropdown :disabled="viewOnly" :name="column.name" v-else-if="column.type === 'dropdown'" :id="'edit-' + column.name" v-model="editForm[column.name]" :options="[{name: '-', id: null}, ...listings[column.listing]]" :optionLabel="column.label" :optionValue="column.value" :class="{'p-invalid': editForm.errors[column.name]}" />
+                        <Calendar :disabled="viewOnly" :name="column.name" v-else-if="column.type === 'date'" :id="'edit-' + column.name" v-model="editForm[column.name]" :class="{'p-invalid': editForm.errors[column.name]}" />
+                        <MultiSelect :disabled="viewOnly" :name="column.name" v-else-if="column.type === 'multiselect'" :id="'edit-' + column.name" v-model="editForm[column.name]" :options="listings[column.listing]" :optionLabel="column.label" :optionValue="column.value" :filter="true"/>
                         <div v-else>Unrecognized field.</div>
 
                         <small class="p-error" v-if="editForm.errors[column.name]">{{ editForm.errors[column.name] }}</small>
@@ -207,7 +207,7 @@
                 </form>
                 <slot name="audits" :auditsProp="auditsForEditForm">
                 </slot>
-                <template #footer>
+                <template #footer v-if="!viewOnly">
                     <div class="mt-6">
                         <Button label="Atcelt" icon="pi pi-times" class="p-button-text" @click="hideEditDialog"/>
                         <Button label="Saglabāt" icon="pi pi-check" class="p-button-text" @click="$refs.theEditForm.requestSubmit()" />
@@ -275,6 +275,10 @@ export default {
               massDelete: true
           }
         },
+        requireEditPermissionPerRow: {
+            type: Boolean,
+            default: false,
+        },
         title: String,
         columns: Array,
         labels: {
@@ -329,7 +333,8 @@ export default {
             expandedRows: [],
             filters: {
                 "global": {value: null, matchMode: FilterMatchMode.CONTAINS}
-            }
+            },
+            viewOnly: false,
         }
     },
     methods: {
@@ -422,6 +427,15 @@ export default {
             editForm.reset()
         }
 
+        const startEditByExternalForces = (id) => {
+            const goal = props.tableData.find(obj => obj.id === id)
+            if (goal) {
+                startEdit(goal)
+            } else {
+                console.log('Could not locate such goal.')
+            }
+        }
+
         const startEdit = (newData) => {
             auditsForEditForm.value = newData.audits
             editDialogOpen.value = true
@@ -459,7 +473,8 @@ export default {
             exportCSV,
             dt,
             searchFields,
-            auditsForEditForm
+            auditsForEditForm,
+            startEditByExternalForces
         }
     }
 }

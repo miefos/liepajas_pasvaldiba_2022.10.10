@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class GoalsResource extends JsonResource
+class GoalsHierarchicalResource extends JsonResource
 {
     public static $wrap = null;
 
@@ -27,7 +27,7 @@ class GoalsResource extends JsonResource
                 'comment' => $this->comment,
                 'editable' => $this->editableByCurrentUser() // indicates if the user can edit the specific goal
             ],
-            'children' => GoalsResource::collection($this->subGoals)
+            'children' => GoalsHierarchicalResource::collection($this->subGoals)
         ];
     }
 }
