@@ -135,7 +135,7 @@
                 <Column :exportable="false" style="min-width:8rem" class="space-x-2">
                     <template #body="slotProps">
                         <template v-if="hasAnyPermission([crudName + '_update']) && actions.update">
-                            <i v-if="!routeNames.edit && requireEditPermissionPerRow && slotProps.data.editable" class="pi pi-pencil hover:bg-custom-main-400 rounded-full p-2 hover:bg-opacity-20" style="font-size: 1.2rem;" @click.stop="() => {startEdit(slotProps.data); viewOnly = false}" />
+                            <i v-if="!routeNames.edit && (!requireEditPermissionPerRow || (requireEditPermissionPerRow && slotProps.data.editable))" class="pi pi-pencil hover:bg-custom-main-400 rounded-full p-2 hover:bg-opacity-20" style="font-size: 1.2rem;" @click.stop="() => {startEdit(slotProps.data); viewOnly = false}" />
                             <i v-else-if="!routeNames.edit" class="pi pi-eye hover:bg-custom-main-400 rounded-full p-2 hover:bg-opacity-20" style="font-size: 1.2rem;" @click.stop="() => {startEdit(slotProps.data); viewOnly = true}" />
                             <Link v-else :href="route(routeNames.edit, slotProps.data.id)"><i  class="pi pi-pencil hover:bg-custom-main-400 rounded-full p-2 hover:bg-opacity-20" style="font-size: 1.2rem;" /></Link>
                         </template>
