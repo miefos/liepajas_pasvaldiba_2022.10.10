@@ -1,14 +1,8 @@
 <?php
 
-use App\Http\Controllers\Admin\OrderController;
-use App\Models\Order;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
-use Inertia\Inertia;
-use Maatwebsite\Excel\Facades\Excel;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +22,14 @@ Route::post('register', 'App\Http\Controllers\Admin\UsersController@store')
     ->name('register.store');
 
 Route::group(['namespace' => 'App\Http\Controllers\Admin', 'middleware' => ['auth', 'verified']], function () {
+    /**
+     * API part
+     */
+    Route::get('/getAvailableGoals/{owner_type}/{id}', 'APIController@getAvailableGoals')->whereIn('owner_type', ['user', 'entity']);
+
+    /**
+     * Main part
+     */
     Route::get('/', function() {
         return redirect()->route('goals.index');
     })->name('home');

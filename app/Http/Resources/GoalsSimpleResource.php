@@ -26,6 +26,7 @@ class GoalsSimpleResource extends JsonResource
             'parent_goal_id' => $this->parent_goal_id,
             'complete_level_id' => $this->complete_level_id,
             'editable' => $this->editableByCurrentUser(),
+            'audits' => $this->audits
         ];
     }
 }

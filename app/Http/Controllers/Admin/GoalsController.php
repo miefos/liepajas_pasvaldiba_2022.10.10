@@ -26,9 +26,11 @@ class GoalsController extends Controller
     {
         abort_if(Gate::denies('goal_read'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $goals = GoalsSimpleResource::collection(Goal::with(['audits' => function ($query) {
+        $goals = Goal::with(['entity', 'audits' => function ($query) {
             $query->orderBy('updated_at', 'desc');
-        }])->get())->collection;
+        }])->get();
+        $goalsSimpleCollection = GoalsSimpleResource::collection($goals)->collection;
+
 
         $goalsHierarchical = GoalsHierarchicalResource::collection(Goal::with([
             'subGoals',
@@ -50,15 +52,38 @@ class GoalsController extends Controller
 
         $goalsHierarchical = ['id' => 0, 'data' => ['name' => 'Liepājas Pašvaldība'], 'children' => $goalsHierarchical];
 
+        $users = User::all();
+        $entities = Entity::all();
+
         $listings = [
-          'goals' => Goal::all(),
+          'goals' => $goals,
           'completeLevels' => CompleteLevel::all(),
-          'entities' => Entity::all(),
-          'users' => User::all()
+          'entities' => $entities,
+          'users' => $users,
+          'entitiesAndUsersGrouped' => [[
+              'label' => 'Struktūrvienības',
+              'items' => $entities->filter(function ($ent) {
+                  return GoalService::creatableByCurrentUser(null, $ent->id);
+              })->map(function ($ent) {
+                  $ent->entity_type = "entity";
+                  return $ent;
+              })->flatten(),
+              ], [
+              'label' => 'Darbinieki',
+              'items' => $users->filter(function ($user) {
+                  return GoalService::creatableByCurrentUser($user->id, null);
+              })->map(function ($user) {
+                  $user->entity_type = "user";
+                  return $user;
+              })->flatten(),
+            ]
+          ],
         ];
 
+//        dd($listings['entitiesAndUsersGrouped']);
+
         return Inertia::render('Goals', [
-            'goals' => $goals,
+            'goals' => $goalsSimpleCollection,
             'listings' => $listings,
             'goalsHierarchical' => $goalsHierarchical
         ]);
@@ -66,7 +91,9 @@ class GoalsController extends Controller
 
     public function store(StoreGoalRequest $request)
     {
-        if (!GoalService::creatableByCurrentUser()) {
+        $user_id = request()->get('user_id');
+        $entity_id = request()->get('entity_id');
+        if (!GoalService::creatableByCurrentUser($user_id, $entity_id)) {
             throw new CustomException(__('common.error.goalCannotBeCreated'));
         }
 
@@ -91,6 +118,10 @@ class GoalsController extends Controller
     {
         abort_if(Gate::denies('goal_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        if (!$goal->editableByCurrentUser()) {
+            throw new CustomException(__('common.error.goalCannotBeEdited'));
+        }
+
         if ($goal->subGoals()->count() > 0) {
             return back()->danger(__('common.error.goalHasSubgoals'));
         }
@@ -105,6 +136,10 @@ class GoalsController extends Controller
         $goals = Goal::whereIn('id', request('ids'));
         $goalsArr = $goals->get();
         foreach ($goalsArr as $goal) {
+            if (!$goal->editableByCurrentUser()) {
+                throw new CustomException(__('common.error.goalCannotBeEdited'));
+            }
+
             if ($goal->subGoals()->count() > 0) {
                 return back()->danger(__('common.error.goalHasSubgoals'));
             }

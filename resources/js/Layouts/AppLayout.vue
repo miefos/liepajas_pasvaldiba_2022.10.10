@@ -218,7 +218,7 @@ export default {
     },
     setup() {
         const sidebarOpen = ref(false) // for mobile view
-        const sidebarOpenDesktop = ref(true)
+        const sidebarOpenDesktop = ref(false)
 
         return {
             navigation,

@@ -139,7 +139,7 @@
                             <i v-else-if="!routeNames.edit" class="pi pi-eye hover:bg-custom-main-400 rounded-full p-2 hover:bg-opacity-20" style="font-size: 1.2rem;" @click.stop="() => {startEdit(slotProps.data); viewOnly = true}" />
                             <Link v-else :href="route(routeNames.edit, slotProps.data.id)"><i  class="pi pi-pencil hover:bg-custom-main-400 rounded-full p-2 hover:bg-opacity-20" style="font-size: 1.2rem;" /></Link>
                         </template>
-                        <i v-if="hasAnyPermission([crudName + '_delete']) && actions.delete && (!requireEditPermissionPerRow || (requireEditPermissionPerRow && slotProps.data.editable))" class="pi pi-trash text-red-600 hover:bg-custom-main-400 rounded-full p-2 hover:bg-opacity-20" style="font-size: 1.2rem;" @click.stop="confirmDeleteSingle($event, slotProps.data)" />
+                        <i v-if="hasAnyPermission([crudName + '_delete']) && actions.delete " class="pi pi-trash text-red-600 hover:bg-custom-main-400 rounded-full p-2 hover:bg-opacity-20" style="font-size: 1.2rem;" @click.stop="confirmDeleteSingle($event, slotProps.data)" />
                     </template>
                 </Column>
 
@@ -154,59 +154,63 @@
 
             </DataTable>
 
-            <Dialog v-model:visible="createNewDialogOpen" :header="labels?.createHeader ?? 'Create new'" :modal="true" class="p-fluid w-full m-2 md:m-0 md:w-3/5" :dismissableMask="true">
-                    <ul class="text-red-500 list-disc mb-4 mx-4">
-                        <li v-for="(err, key) in createForm.errors">
-                            {{ err }}
-                        </li>
-                    </ul>
+            <Dialog :show-header="showHeader" @hide="hideCreateNew" v-model:visible="createNewDialogOpen" :header="labels?.createHeader ?? 'Create new'" :modal="true" class="p-fluid w-full m-2 md:m-0 md:w-3/5" :dismissableMask="true">
+                <ul class="text-red-500 list-disc mb-4 mx-4">
+                    <li v-for="(err, key) in createForm.errors">
+                        {{ err }}
+                    </li>
+                </ul>
 
-                    <form @submit.prevent="createNew" class="space-y-4" ref="theCreateForm">
+                <form @submit.prevent="createNew" class="space-y-4" ref="theCreateForm">
 
-                        <slot name="createDialogContent">
-                            <div class="field" v-for="column in columns.filter(column => !(column['hideOnCreate']))">
-                                <label :for="'create-' + column.name">{{ column.header }}<span v-if="column.required" class="text-red-500">*</span></label>
+                    <slot name="createDialogContent" :columns="columns" :createForm="createForm" :listings="listings">
+                        <div class="field" v-for="column in columns.filter(c => !(c['hideOnCreate']))">
+                            <label :for="'create-' + column.name">{{ column.header }}<span v-if="column.required" class="text-red-500">*</span></label>
 
-                                <InputText :name="column.name" v-if="column.type === 'text'" :id="'create-' + column.name" v-model.trim="createForm[column.name]" :required="column.required" autofocus :class="{'p-invalid': createForm.errors[column.name]}" />
-                                <Textarea :name="column.name" v-else-if="column.type === 'textarea'" :id="'create-' + column.name" v-model.trim="createForm[column.name]" :required="column.required" autofocus :class="{'p-invalid': createForm.errors[column.name]}" />
-                                <Dropdown :name="column.name" v-else-if="column.type === 'dropdown'" :id="'create-' + column.name" v-model="createForm[column.name]" :options="[{[column.label]: '-', [column.value]: null}, ...listings[column.listing]]" :optionLabel="column.label" :optionValue="column.value" />
-                                <Calendar :name="column.name" v-else-if="column.type === 'date'" :id="'create-' + column.name" v-model="createForm[column.name]" :class="{'p-invalid': createForm.errors[column.name]}" />
-                                <MultiSelect :name="column.name" v-else-if="column.type === 'multiselect'" :id="'create-' + column.name" v-model="createForm[column.name]" :options="listings[column.listing]" :optionLabel="column.label" :optionValue="column.value" :filter="true"/>
-                                <div v-else>Unrecognized field.</div>
+                            <InputText :name="column.name" v-if="column.type === 'text'" :id="'create-' + column.name" v-model.trim="createForm[column.name]" :required="column.required" autofocus :class="{'p-invalid': createForm.errors[column.name]}" />
+                            <Textarea :name="column.name" v-else-if="column.type === 'textarea'" :id="'create-' + column.name" v-model.trim="createForm[column.name]" :required="column.required" autofocus :class="{'p-invalid': createForm.errors[column.name]}" />
+                            <Dropdown :name="column.name" v-else-if="column.type === 'dropdown'" :id="'create-' + column.name" v-model="createForm[column.name]" :options="[{[column.label]: '-', [column.value]: null}, ...listings[column.listing]]" :optionLabel="column.label" :optionValue="column.value" />
+                            <Calendar :name="column.name" v-else-if="column.type === 'date'" :id="'create-' + column.name" v-model="createForm[column.name]" :class="{'p-invalid': createForm.errors[column.name]}" />
+                            <MultiSelect :name="column.name" v-else-if="column.type === 'multiselect'" :id="'create-' + column.name" v-model="createForm[column.name]" :options="listings[column.listing]" :optionLabel="column.label" :optionValue="column.value" :filter="true"/>
+                            <div v-else>Unrecognized field.</div>
 
-                                <small class="p-error" v-if="createForm.errors[column.name]">{{ createForm.errors[column.name] }}</small>
-                            </div>
-                        </slot>
+                            <small class="p-error" v-if="createForm.errors[column.name]">{{ createForm.errors[column.name] }}</small>
+                        </div>
+                    </slot>
 
-                        <button type="submit" class="hidden"></button>
-                    </form>
+                    <button type="submit" class="hidden"></button>
+                </form>
                 <template #footer>
                     <Button label="Atcelt" icon="pi pi-times" class="p-button-text" @click="hideCreateNew"/>
                     <Button label="Saglabāt" icon="pi pi-check" class="p-button-text" @click="$refs.theCreateForm.requestSubmit()"/>
                 </template>
             </Dialog>
 
-            <Dialog v-model:visible="editDialogOpen" :header="labels?.editHeader ?? 'Edit'" :modal="true" class="p-fluid w-full m-2 md:m-0 md:w-3/5" :dismissableMask="true">
-                <ValidationErrors :errors="updateSingle.errors"></ValidationErrors>
+            <Dialog :show-header="showHeader" @hide="hideEditDialog" v-model:visible="editDialogOpen" :header="labels?.editHeader ?? 'Edit'" :modal="true" class="p-fluid w-full m-2 md:m-0 md:w-3/5" :dismissableMask="true">
+                <ul class="text-red-500 list-disc mb-4 mx-4">
+                    <li v-for="(err, key) in editForm.errors">
+                        {{ err }}
+                    </li>
+                </ul>
 
                 <form @submit.prevent="updateSingle" class="space-y-4" ref="theEditForm">
 
-                    <div class="field" v-for="column in columns.filter(column => !(column['hideOnEdit']))">
-                        <label :for="'edit-' + column.name">{{ column.header }}<span v-if="column.required" class="text-red-500">*</span></label>
-                        <InputText :disabled="viewOnly" :name="column.name" v-if="column.type === 'text'" :id="'edit-' + column.name" v-model.trim="editForm[column.name]" :required="column.required" autofocus :class="{'p-invalid': editForm.errors[column.name]}" />
-                        <Textarea :disabled="viewOnly" :name="column.name" v-else-if="column.type === 'textarea'" :id="'edit-' + column.name" v-model.trim="editForm[column.name]" :required="column.required" autofocus :class="{'p-invalid': editForm.errors[column.name]}" />
-                        <Dropdown :disabled="viewOnly" :name="column.name" v-else-if="column.type === 'dropdown'" :id="'edit-' + column.name" v-model="editForm[column.name]" :options="[{name: '-', id: null}, ...listings[column.listing]]" :optionLabel="column.label" :optionValue="column.value" :class="{'p-invalid': editForm.errors[column.name]}" />
-                        <Calendar :disabled="viewOnly" :name="column.name" v-else-if="column.type === 'date'" :id="'edit-' + column.name" v-model="editForm[column.name]" :class="{'p-invalid': editForm.errors[column.name]}" />
-                        <MultiSelect :disabled="viewOnly" :name="column.name" v-else-if="column.type === 'multiselect'" :id="'edit-' + column.name" v-model="editForm[column.name]" :options="listings[column.listing]" :optionLabel="column.label" :optionValue="column.value" :filter="true"/>
-                        <div v-else>Unrecognized field.</div>
+                    <slot name="editDialogContent" :columns="columns" :editForm="editForm" :listings="listings" :audits-prop="auditsForEditForm">
+                        <div class="field" v-for="column in columns.filter(c => !(c['hideOnEdit']))">
+                            <label :for="'edit-' + column.name">{{ column.header }}<span v-if="column.required" class="text-red-500">*</span></label>
+                            <InputText :disabled="viewOnly" :name="column.name" v-if="column.type === 'text'" :id="'edit-' + column.name" v-model.trim="editForm[column.name]" :required="column.required" autofocus :class="{'p-invalid': editForm.errors[column.name]}" />
+                            <Textarea :disabled="viewOnly" :name="column.name" v-else-if="column.type === 'textarea'" :id="'edit-' + column.name" v-model.trim="editForm[column.name]" :required="column.required" autofocus :class="{'p-invalid': editForm.errors[column.name]}" />
+                            <Dropdown :disabled="viewOnly" :name="column.name" v-else-if="column.type === 'dropdown'" :id="'edit-' + column.name" v-model="editForm[column.name]" :options="[{name: '-', id: null}, ...listings[column.listing]]" :optionLabel="column.label" :optionValue="column.value" :class="{'p-invalid': editForm.errors[column.name]}" />
+                            <Calendar :disabled="viewOnly" :name="column.name" v-else-if="column.type === 'date'" :id="'edit-' + column.name" v-model="editForm[column.name]" :class="{'p-invalid': editForm.errors[column.name]}" />
+                            <MultiSelect :disabled="viewOnly" :name="column.name" v-else-if="column.type === 'multiselect'" :id="'edit-' + column.name" v-model="editForm[column.name]" :options="listings[column.listing]" :optionLabel="column.label" :optionValue="column.value" :filter="true"/>
+                            <div v-else>Unrecognized field.</div>
 
-                        <small class="p-error" v-if="editForm.errors[column.name]">{{ editForm.errors[column.name] }}</small>
-                    </div>
+                            <small class="p-error" v-if="editForm.errors[column.name]">{{ editForm.errors[column.name] }}</small>
+                        </div>
+                    </slot>
 
                     <button type="submit" class="hidden"></button>
                 </form>
-                <slot name="audits" :auditsProp="auditsForEditForm">
-                </slot>
                 <template #footer v-if="!viewOnly">
                     <div class="mt-6">
                         <Button label="Atcelt" icon="pi pi-times" class="p-button-text" @click="hideEditDialog"/>
@@ -302,9 +306,9 @@ export default {
             type: Boolean,
             default: false
         },
-        itIsGoalsPage: {
+        showHeader: {
             type: Boolean,
-            default: false
+            default: true
         }
     },
     components: {
@@ -419,11 +423,13 @@ export default {
 
         const hideCreateNew = () => {
             createNewDialogOpen.value = false
+            createForm.clearErrors()
             createForm.reset()
         }
 
         const hideEditDialog = () => {
             editDialogOpen.value = false
+            editForm.clearErrors()
             editForm.reset()
         }
 

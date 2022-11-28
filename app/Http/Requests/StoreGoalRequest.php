@@ -24,6 +24,10 @@ class StoreGoalRequest extends FormRequest
                 'string',
                 'required',
             ],
+            'complete_level_id' => [
+              'required',
+              'exists:complete_levels,id'
+            ],
             'parent_goal_id' => [
                 'nullable',
                 'exists:goals,id',
