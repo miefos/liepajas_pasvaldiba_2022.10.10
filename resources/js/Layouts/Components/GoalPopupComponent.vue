@@ -244,8 +244,10 @@ export default {
                 return
             }
 
-            // update list of parent goals available
-            axios.get('getAvailableGoals/' + data.value.entity_type + '/' + data.value.id, {
+            this.getAvailableGoals(data.value.entity_type, data.value.id)
+        },
+        getAvailableGoals (entity_type, id) {
+            axios.get('getAvailableGoals/' + entity_type + '/' + id, {
             }).then(resp => {
                 if (resp.data.status === 'OK') {
                     this.listings.availableGoals = resp.data.data
@@ -261,8 +263,10 @@ export default {
         }
         if (this.formData.user_id) {
             this.owner = this.listings.entitiesAndUsersGrouped?.find(group => group.label === 'Darbinieki')?.items.find(u => u.id === Number.parseInt(this.formData.user_id) && u.entity_type === 'user')
+            this.getAvailableGoals('user', this.owner.id)
         } else if (this.formData.entity_id) {
             this.owner = this.listings.entitiesAndUsersGrouped?.find(group => group.label === 'Struktūrvienības')?.items.find(u => u.id === Number.parseInt(this.formData.entity_id) && u.entity_type === 'entity')
+            this.getAvailableGoals('entity', this.owner.id)
         }
     }
 }
