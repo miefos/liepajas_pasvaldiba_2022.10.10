@@ -44,6 +44,7 @@ class HandleInertiaRequests extends Middleware
             $added_array['user.entity'] = $user->load('entity')->entity;
             $added_array['user.entity_is_supervisor'] = (bool) $user->supervisedEntities()->pluck('id')->contains(intval($user->entity_id));
             $added_array['user.directly_supervised'] = $user->directlySupervisedEmployees()->get()->pluck('name', 'id');
+            $added_array['user.is_supervisor_somewhere'] = (bool) $user->supervisedEntities()->count();
         }
 
         $added_array['flash'] = [

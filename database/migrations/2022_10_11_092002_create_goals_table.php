@@ -22,6 +22,7 @@ return new class extends Migration
             $table->foreignId('complete_level_id')->default(1)->references('id')->on('complete_levels');
             $table->foreignId('entity_id')->nullable()->references('id')->on('entities');
             $table->foreignId('user_id')->nullable()->references('id')->on('users')->cascadeOnDelete();
+            $table->boolean('approved')->default(false)->change();
         });
     }
 

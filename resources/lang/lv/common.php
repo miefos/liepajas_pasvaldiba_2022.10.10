@@ -9,6 +9,7 @@ return [
     'removed' => 'Noņemts',
     'massDeleted' => 'Izdzēsts masveidā',
     'added' => 'Pievienots',
+    'massAccepted' => 'Atzīmētie mērķi ir akceptēti!',
   ],
   'error' => [
       'inGeneral' => 'Notika kļūda',
@@ -30,5 +31,7 @@ return [
       'userCannotBeDeleted' => 'Šis lietotājs nevar tikt izdzēsts',
       'goalCannotBeEdited' => 'Jūs nevarat labot šo mērķi, jo nav atbilstoša saistība ar šo mērķi',
       'goalCannotBeCreated' => 'Jūs nevarat izveidot šādu mērķi, jo nav atbilstoša saistība ar paredzamo mērķa īpašnieku',
+      'cannotApprove' => 'Jūs nevarat apstiprināt vismaz vienu no mērķiem',
+      'cannotDeleteBecauseApproved' => 'Šo mērķi nevar izdzēst, jo tas jau ir apstiprināts',
   ]
 ];

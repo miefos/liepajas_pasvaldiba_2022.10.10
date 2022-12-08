@@ -37,6 +37,7 @@
                             <Button v-if="hasAnyPermission([crudName + '_create']) && actions.create" icon="pi pi-plus" @click="createNewDialogOpen = true" label="Pievienot" />
     <!--                        <Button icon="pi pi-plus" disabled label="Importēt" />-->
                             <Button v-if="hasAnyPermission([crudName + '_export']) && actions['export']" @click="exportCSV" icon="pi pi-external-link" label="Eksportēt" />
+                            <Button v-if="extraButtonAvailable" @click="$emit('extra-button-clicked', selectedRows)" :disabled="selectedRows.length < 1" icon="pi pi-check" :label="extraButtonLabel" />
                             <template v-if="typeof routeNames['exportExternal'] !== 'undefined'">
                                 <a :href="route(routeNames['exportExternal'])">
                                     <Button icon="pi pi-external-link" label="Eksportēt (ārēji)" />
@@ -321,6 +322,14 @@ export default {
         showHeader: {
             type: Boolean,
             default: true
+        },
+        extraButtonAvailable: {
+            type: Boolean,
+            default: false
+        },
+        extraButtonLabel: {
+            type: String,
+            default: null
         }
     },
     components: {
@@ -414,7 +423,7 @@ export default {
             const ids = selectedRows.value.map(row => row.id)
 
             useForm({ids: ids}).delete(route(props.routeNames.massDestroy), {
-                onError: (err) => {alert('error'), console.log(err)},
+                onError: (err) => {alert('error'); console.log(err)},
                 onSuccess: () => selectedRows.value = []
             })
         }

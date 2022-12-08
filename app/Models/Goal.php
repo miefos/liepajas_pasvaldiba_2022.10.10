@@ -21,6 +21,7 @@ class Goal extends Model implements Auditable
      */
     protected array $auditInclude = [
         'complete_level_id',
+        'approved'
     ];
 
     protected $guarded = [];
@@ -47,6 +48,10 @@ class Goal extends Model implements Auditable
 
     public function editableByCurrentUser() {
         return GoalService::editableByCurrentUser($this);
+    }
+
+    public function approvableByCurrentUser() {
+        return GoalService::approvableByCurrentUser($this);
     }
 
     // inefficient (!!!) authorization algorithm to goals

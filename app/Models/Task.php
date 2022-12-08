@@ -3,7 +3,10 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 class Task extends Model
 {
@@ -13,6 +16,18 @@ class Task extends Model
 
     public function goal() {
         return $this->belongsTo(Goal::class);
+    }
+
+    protected static function booted() {
+        static::addGlobalScope('authorizeGoal', function (Builder $builder) {
+            $user = Auth::user();
+
+            abort_if(!$user, Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+            if ($user->hasRole('Super Admin')) return $builder;
+
+            return $builder->where('user_id', '=', $user->id);
+        });
     }
 
 //    public function setDateAttribute($value) {

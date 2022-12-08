@@ -90,6 +90,8 @@ class PermissionsTableSeeder extends Seeder
                 'name' => 'goal_delete',
             ],            [
                 'name' => 'goal_export',
+            ],  [
+                'name' => 'goal_accept',
             ],
             [
                 'name' => 'entity_create',

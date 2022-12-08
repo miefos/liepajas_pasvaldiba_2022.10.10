@@ -19,7 +19,6 @@ class StoreTaskRequest extends FormRequest
             'name' => [
                 'string',
                 'required',
-                'unique:tasks'
             ],
             'goal_id' => [
                 'nullable',

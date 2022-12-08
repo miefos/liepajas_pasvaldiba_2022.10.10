@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->foreignId('goal_id')->nullable()->references('id')->on('goals');
+            $table->foreignId('user_id')->references('id')->on('users');
             $table->string('description')->nullable();
             $table->date('date');
         });

@@ -155,28 +155,36 @@
                             <div class="" v-if="auditsProp">
                                 <div class="flow-root">
                                     <ul role="list" class="-mb-8">
-                                        <li v-for="(completeLevelChange, completeLevelChangeIdx) in auditsProp" :key="completeLevelChange.id">
+                                        <li v-for="(auditChange, auditChangeIdx) in auditsProp" :key="auditChange.id">
                                             <div class="relative pb-8">
-                                                <span v-if="completeLevelChangeIdx !== auditsProp.length - 1" class="absolute top-3 left-3 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true" />
+                                                <span v-if="auditChangeIdx !== auditsProp.length - 1" class="absolute top-3 left-3 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true" />
                                                 <div class="relative flex space-x-3">
                                                     <div>
-                                              <span class="h-6 w-6 rounded-full flex items-center justify-center bg-custom-main-500">
-                                                  <svg color="white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3 h-3">
-                                                      <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
-                                                  </svg>
-                                              </span>
+                                                      <span v-if="auditChange.old_values.complete_level_id != undefined" class="h-6 w-6 rounded-full flex items-center justify-center bg-custom-main-500">
+                                                          <svg color="white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3 h-3">
+                                                              <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                                                          </svg>
+                                                      </span>
+                                                      <span v-if="auditChange.old_values.approved != undefined" class="h-6 w-6 rounded-full flex items-center justify-center bg-red-500">
+                                                          <svg color="white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3 h-3">
+                                                              <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                                                          </svg>
+                                                      </span>
                                                     </div>
                                                     <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1">
                                                         <div>
-                                                            <p class="text-sm text-gray-500">
+                                                            <p class="text-sm text-gray-500" v-if="auditChange.old_values.complete_level_id != undefined">
                                                                 Tika nomainīts izpildes līmenis no
-                                                                <span class="font-semibold"> {{ findCompleteLevelNameById(completeLevelChange.old_values?.complete_level_id) }} </span>
+                                                                <span class="font-semibold"> {{ findCompleteLevelNameById(auditChange.old_values?.complete_level_id) }} </span>
                                                                 uz
-                                                                <span class="font-semibold"> {{ findCompleteLevelNameById(completeLevelChange.new_values?.complete_level_id) }} </span>
+                                                                <span class="font-semibold"> {{ findCompleteLevelNameById(auditChange.new_values?.complete_level_id) }} </span>
+                                                            </p>
+                                                            <p class="text-sm text-gray-500" v-if="auditChange.old_values.approved != undefined">
+                                                                Mērķis tika apstiprināts
                                                             </p>
                                                         </div>
                                                         <div class="whitespace-nowrap text-right text-sm text-gray-500">
-                                                            {{ dayjs(completeLevelChange.updated_at).fromNow() }}, {{ findUserNameById(completeLevelChange.user_id) }}
+                                                            {{ dayjs(auditChange.updated_at).fromNow() }}, {{ findUserNameById(auditChange.user_id) }}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -263,10 +271,14 @@ export default {
         }
         if (this.formData.user_id) {
             this.owner = this.listings.entitiesAndUsersGrouped?.find(group => group.label === 'Darbinieki')?.items.find(u => u.id === Number.parseInt(this.formData.user_id) && u.entity_type === 'user')
-            this.getAvailableGoals('user', this.owner.id)
+            if (this.owner) {
+                this.getAvailableGoals('user', this.owner.id)
+            }
         } else if (this.formData.entity_id) {
             this.owner = this.listings.entitiesAndUsersGrouped?.find(group => group.label === 'Vienības')?.items.find(u => u.id === Number.parseInt(this.formData.entity_id) && u.entity_type === 'entity')
-            this.getAvailableGoals('entity', this.owner.id)
+            if (this.owner) {
+                this.getAvailableGoals('entity', this.owner.id)
+            }
         }
     }
 }

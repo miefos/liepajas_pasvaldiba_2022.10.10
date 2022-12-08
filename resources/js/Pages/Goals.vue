@@ -25,8 +25,9 @@
 <!--            </template>-->
 <!--        </organization-chart>-->
         </div>
-
         <crud-table
+            :extra-button-available="$page.props.user.is_supervisor_somewhere"
+            extra-button-label="Apstiprināt atzīmētos"
             :show-header="false"
             :tableData="goals"
             :listings="listings"
@@ -37,6 +38,7 @@
             :route-names="routesName"
             :requireEditPermissionPerRow="true"
             ref="dtgoals"
+            @extra-button-clicked="acceptGoals"
         >
             <template #createDialogContent="{columns, createForm, listings}">
                 <GoalPopupComponent :columns="columns" :formData="createForm" :listings="listings"></GoalPopupComponent>
@@ -59,6 +61,7 @@ import Textarea from 'primevue/textarea';
 import Calendar from 'primevue/calendar';
 import Dropdown from 'primevue/dropdown';
 import GoalPopupComponent from "@/Layouts/Components/GoalPopupComponent.vue";
+import {useForm} from "@inertiajs/inertia-vue3";
 
 export default {
     props: {
@@ -86,7 +89,18 @@ export default {
       openDialog(id, viewOnly) {
           this.$refs.dtgoals.viewOnly = viewOnly
           this.$refs.dtgoals.startEditByExternalForces(id);
-      }
+      },
+        acceptGoals(selectedRows) {
+            if (!window.confirm('Patiešām apstiprināt atzīmētos?'))
+                return;
+
+            const ids = selectedRows.map(row => row.id)
+
+            useForm({ids: ids}).post(route('goals.acceptMass'), {
+                onError: (err) => {alert('error'); console.log(err)},
+                onSuccess: () => selectedRows.value = []
+            })
+        }
     },
     setup() {
         const labels = {
@@ -109,6 +123,7 @@ export default {
             {type: 'dropdown', name: 'complete_level_id', label: 'name',  listing: 'completeLevels', value: 'id', header: 'Izpilde', sortable: true, required: true},
             {type: 'dropdown', name: 'entity_id', label: 'name',  listing: 'entities', value: 'id', header: 'Vienība', sortable: true},
             {type: 'dropdown', name: 'user_id', label: 'name',  listing: 'users', value: 'id', header: 'Darbinieks', sortable: true},
+            {type: 'dropdown', name: 'approved', label: 'name', listing: 'isOrIsNot', value: 'value', header: 'Apstiprināts', sortable: true}, // boolean option
         ]
 
         return {

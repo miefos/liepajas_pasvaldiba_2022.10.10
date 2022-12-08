@@ -69,4 +69,34 @@ class GoalService {
 
         return false;
     }
+
+
+    public static function approvableByCurrentUser($goal) {
+        $user = Auth::user();
+
+        if (!$user) {
+            return false;
+        }
+
+        if ($user->hasAnyRole(['Super Admin', 'Admin'])) {
+            return true;
+        }
+
+        // allow edit if the user is owner of the goal
+//        if ($goal->user && $goal->user->id === $user->id) {
+//            return true;
+//        }
+
+        // allow edit if the user is direct supervisor of the goal owner
+        if ($goal->user && $user->directlySupervisedEmployees->pluck('id')->contains($goal->user->id)) {
+            return true;
+        }
+
+        // allow edit if the user is supervisor of the goal's entity
+        if ($goal->entity && $user->supervisedEntities->pluck('id')->contains($goal->entity->id)) {
+            return true;
+        }
+
+        return false;
+    }
 }

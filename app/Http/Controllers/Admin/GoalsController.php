@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Exceptions\CustomException;
+use App\Http\Requests\MassAcceptGoalRequest;
 use App\Http\Resources\GoalsHierarchicalResource;
 use App\Http\Resources\GoalsSimpleResource;
 use App\Models\CompleteLevel;
@@ -60,6 +61,10 @@ class GoalsController extends Controller
           'completeLevels' => CompleteLevel::all(),
           'entities' => $entities,
           'users' => $users,
+          'isOrIsNot' => [
+            ['name' => 'Nav', 'value' => 0],
+            ['name' => 'Ir', 'value' => 1]
+          ],
           'entitiesAndUsersGrouped' => [[
               'label' => 'Vienības',
               'items' => $entities->filter(function ($ent) {
@@ -126,6 +131,10 @@ class GoalsController extends Controller
             return back()->danger(__('common.error.goalHasSubgoals'));
         }
 
+        if ($goal->approved) {
+            return back()->danger(__('common.error.cannotDeleteBecauseApproved'));
+        }
+
         $goal->delete();
 
         return back()->success(__('common.success.deleted'));
@@ -143,10 +152,31 @@ class GoalsController extends Controller
             if ($goal->subGoals()->count() > 0) {
                 return back()->danger(__('common.error.goalHasSubgoals'));
             }
+
+            if ($goal->approved) {
+                return back()->danger(__('common.error.cannotDeleteBecauseApproved'));
+            }
         }
 
         $goals->delete();
 
         return back()->success(__('common.success.massDeleted'));
+    }
+
+    public function acceptMass(MassAcceptGoalRequest $request) {
+        $goals = Goal::whereIn('id', request('ids'));
+        $goalsArr = $goals->get();
+        foreach ($goalsArr as $goal) {
+            if (!$goal->approvableByCurrentUser()) {
+                return back()->danger(__('common.error.cannotApprove'));
+            }
+        }
+        foreach ($goalsArr as $goal) {
+            if ($goal->approved) continue;
+            $goal->approved = true;
+            $goal->save();
+        }
+
+        return back()->success(__('common.success.massAccepted'));
     }
 }

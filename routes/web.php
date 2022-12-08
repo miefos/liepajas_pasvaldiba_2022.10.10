@@ -53,6 +53,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin', 'middleware' => ['aut
     // Goals
     Route::delete('goals/destroy', 'GoalsController@massDestroy')->name('goals.massDestroy');
     Route::apiResource('goals', 'GoalsController');
+    Route::post('goals/accept', 'GoalsController@acceptMass')->name('goals.acceptMass');
 
     // Permissions
     Route::get('/permissions', 'PermissionsController@index')->name('permissions.index');

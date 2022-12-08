@@ -25,6 +25,12 @@ class PermissionRoleTableSeeder extends Seeder
                 'goal_update',
                 'goal_export',
                 'goal_delete',
+                'goal_accept',
+                'task_create',
+                'task_read',
+                'task_update',
+                'task_export',
+                'task_delete',
             ]
         ];
 

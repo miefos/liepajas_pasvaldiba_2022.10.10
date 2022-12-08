@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Goal;
+use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,6 +31,7 @@ class TasksController extends Controller
 
     public function store(StoreTaskRequest $request)
     {
+        $request['user_id'] = auth()->user()->id;
         Task::create($request->all());
 
         return back()->success(__('common.success.created'));

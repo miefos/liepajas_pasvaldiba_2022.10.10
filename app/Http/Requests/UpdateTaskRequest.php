@@ -18,7 +18,6 @@ class UpdateTaskRequest extends FormRequest
             'name' => [
                 'string',
                 'required',
-                'unique:tasks,name,' . request()->route('task')->id,
             ],
             'goal_id' => [
                 'nullable',
