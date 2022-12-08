@@ -57,7 +57,7 @@ return [
     */
 
     'events' => [
-        'created',
+//        'created',
         'updated',
         'deleted',
         'restored'
@@ -103,7 +103,7 @@ return [
 
     'empty_values'         => false,
     'allowed_empty_values' => [
-        'retrieved'
+        'retrieved',
     ],
 
     /*

@@ -12,6 +12,7 @@
                         </div>
                         <div class="flex-1 space-y-2">
                             <input
+                                autofocus
                                 v-model.trim="formData.name"
                                 type="text"
                                 name="name"
