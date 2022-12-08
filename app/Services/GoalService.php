@@ -109,7 +109,7 @@ class GoalService {
         $user = Auth::user();
 
         abort_if(!$user,Response::HTTP_FORBIDDEN, '403 Forbidden');
-g
+
         $isFirstLevelSupervisor = $user->supervisedEntities->pluck('entity_level_id')->contains(EntityLevel::whereNull('parent_entity_level_id')->first()->id); // aka izpilddirektors var redzēt visus mērķus
         if ($user->hasRole('Super Admin') || $user->hasRole('Admin') || $isFirstLevelSupervisor) return $builder;
 
