@@ -15,7 +15,7 @@ class PermissionRoleTableSeeder extends Seeder
         $roles = [1,2,3]; // Super Admin, Admin, Darbinieks
         $notPermissions = [
             1 => [],
-            2 => [],
+            2 => ['complete_level', 'entity_level'],
         ];
 
         $permissions = [

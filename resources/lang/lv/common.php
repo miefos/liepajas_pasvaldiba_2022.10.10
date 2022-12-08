@@ -26,7 +26,7 @@ return [
       'entityLevelHasSubentityLevels' => 'Šim struktūras līmenim ir apakšstruktūras līmeņi. Sākumā jāizdzēš tie',
       'completeLevelHasGoals' => 'Šim pabeigtības līmenim ir piesaistīti mērķi. Sākumā jāizdzēš tie',
       'userHasGoals' => 'Šim lietotājam ir piesaistīti mērķi. Sākumā jāizdzēš tie',
-      'userHasSupervisedEntities' => 'Šis lietotājs ir vadītājs struktūrvienībām. Sākumā jāatceļ vadītāja loma',
+      'userHasSupervisedEntities' => 'Šis lietotājs ir vadītājs kādai vienībai. Sākumā jāatceļ vadītāja loma',
       'userCannotBeDeleted' => 'Šis lietotājs nevar tikt izdzēsts',
       'goalCannotBeEdited' => 'Jūs nevarat labot šo mērķi, jo nav atbilstoša saistība ar šo mērķi',
       'goalCannotBeCreated' => 'Jūs nevarat izveidot šādu mērķi, jo nav atbilstoša saistība ar paredzamo mērķa īpašnieku',

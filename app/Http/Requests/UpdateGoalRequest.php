@@ -44,4 +44,14 @@ class UpdateGoalRequest extends FormRequest
             ],
         ];
     }
+
+    public function messages()
+    {
+        return [
+            "name" => "Ievadiet mērķa nosaukumu.",
+            "complete_level_id" => "Norādiet mērķa pabeigtības līmeni.",
+            "entity_id.required_without" => "Norādiet mērķa īpašnieku",
+            "user_id.required_without" => "Norādiet mērķa īpašnieku",
+        ];
+    }
 }

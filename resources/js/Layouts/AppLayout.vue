@@ -78,7 +78,9 @@
                     </button>
 
                     <div class="flex-1 px-4 flex">
-                        <img class="" :src="logoUrl" @error="logoUrl = alternativeLogoUrl" alt="logo" />
+                        <Link href="/" class="flex-1 px-4 flex">
+                            <img class="" :src="logoUrl" @error="logoUrl = alternativeLogoUrl" alt="logo" />
+                        </Link>
                     </div>
 
                     <div class="flex-1 px-4 flex justify-between sm:px-6 w-full lg:mx-auto lg:px-8">
@@ -147,14 +149,16 @@ import ValidationErrors from "../Jetstream/ValidationErrors.vue";
 import TheToastNotification from "@/Layouts/Components/TheToastNotification.vue";
 import Dropdown from "primevue/dropdown";
 import {mapGetters} from "vuex";
+import { Link } from '@inertiajs/inertia-vue3';
 
 const navigation = [
     // { name: 'Sākums', routeName: 'home', icon: HomeIcon},
+    {name: 'Uzdevumi', routeName: 'tasks.index', icon: CollectionIcon, can: ['task_read']},
     {name: 'Mērķi', routeName: 'goals.index', icon: CollectionIcon, can: ['goal_read']},
 ]
 const secondaryNavigation = [
-    {name: 'Struktūrvienības', routeName: 'entities.index', icon: CollectionIcon, can: ['entity_read']},
-    {name: 'Struktūrvienību līmeņi', routeName: 'entity_levels.index', icon: CollectionIcon, can: ['entity_level_read']},
+    {name: 'Vienības', routeName: 'entities.index', icon: CollectionIcon, can: ['entity_read']},
+    {name: 'Vienības līmeņi', routeName: 'entity_levels.index', icon: CollectionIcon, can: ['entity_level_read']},
     {name: 'Pabeigtības līmeņi', routeName: 'complete_levels.index', icon: CollectionIcon, can: ['complete_level_read']},
     { name: 'Lietotāji un lomas', routeName: '#', icon: UserGroupIcon,
         children: [
@@ -185,7 +189,8 @@ export default {
         XIcon,
         QrcodeIcon,
         Head,
-        Dropdown
+        Dropdown,
+        Link
     },
     props: {
         title: String,

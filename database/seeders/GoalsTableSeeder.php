@@ -46,79 +46,79 @@ class GoalsTableSeeder extends Seeder
                 'entity_id' => 1,
                 'parent_goal_id' => null
             ],
-            [
-                'name' => 'Celt darbinieku kvalifikāciju',
-                'description' => '',
-                'complete_level_id' => 1,
-                'entity_id' => Entity::where('name', '=', 'IT daļa')->first()->id,
-                'parent_goal_id' => 1
-            ],[
-                'name' => 'Doties 5 pieredzes apmaiņas braucienos',
-                'description' => '',
-                'complete_level_id' => 1,
-                'entity_id' => Entity::where('name', '=', 'IT daļa')->first()->id,
-                'parent_goal_id' => 1
-            ],[
-                'name' => 'Nodrošināt darbinieku labbūtību',
-                'description' => '',
-                'complete_level_id' => 1,
-                'entity_id' => Entity::where('name', '=', 'IT daļa')->first()->id,
-                'parent_goal_id' => 1
-            ],[
-                'name' => 'Izpildīt darbinieku priekšlikumus',
-                'description' => '',
-                'complete_level_id' => 1,
-                'entity_id' => Entity::where('name', '=', 'IT daļa')->first()->id,
-                'parent_goal_id' => 1
-            ],[
-                'name' => 'Piesaistīt 3 jaunus speciālistus',
-                'description' => '',
-                'complete_level_id' => 1,
-                'entity_id' => Entity::where('name', '=', 'IT daļa')->first()->id,
-                'parent_goal_id' => 1
-            ],[
-                'name' => 'Celt darbinieku kvalifikāciju',
-                'description' => '',
-                'complete_level_id' => 1,
-                'entity_id' => Entity::where('name', '=', 'Finanšu pārvalde')->first()->id,
-                'parent_goal_id' => 1
-            ],[
-                'name' => 'Doties 3 pieredzes apmaiņas braucienos',
-                'description' => '',
-                'complete_level_id' => 1,
-                'entity_id' => Entity::where('name', '=', 'Finanšu pārvalde')->first()->id,
-                'parent_goal_id' => 1
-            ],[
-                'name' => 'Celt darbinieku kvalifikāciju',
-                'description' => '',
-                'complete_level_id' => 1,
-                'entity_id' => Entity::where('name', '=', 'Personāla daļa')->first()->id,
-                'parent_goal_id' => 1
-            ],[
-                'name' => 'Celt darbinieku kvalifikāciju',
-                'description' => '',
-                'complete_level_id' => 1,
-                'entity_id' => Entity::where('name', '=', 'IT daļa')->first()->id,
-                'parent_goal_id' => 1
-            ],[
-                'name' => 'Celt darbinieku kvalifikāciju',
-                'description' => '',
-                'complete_level_id' => 1,
-                'entity_id' => Entity::where('name', '=', 'Juridiskā daļa')->first()->id,
-                'parent_goal_id' => 1
-            ],[
-                'name' => 'Celt darbinieku kvalifikāciju',
-                'description' => '',
-                'complete_level_id' => 1,
-                'entity_id' => Entity::where('name', '=', 'Publisko iepirkumu daļa')->first()->id,
-                'parent_goal_id' => 1
-            ],[
-                'name' => 'Celt darbinieku kvalifikāciju',
-                'description' => '',
-                'complete_level_id' => 1,
-                'entity_id' => Entity::where('name', '=', 'Liepājas pārstāvniecība Rīgā')->first()->id,
-                'parent_goal_id' => 1
-            ],
+//            [
+//                'name' => 'Celt darbinieku kvalifikāciju',
+//                'description' => '',
+//                'complete_level_id' => 1,
+//                'entity_id' => Entity::where('name', '=', 'IT daļa')->first()->id,
+//                'parent_goal_id' => 1
+//            ],[
+//                'name' => 'Doties 5 pieredzes apmaiņas braucienos',
+//                'description' => '',
+//                'complete_level_id' => 1,
+//                'entity_id' => Entity::where('name', '=', 'IT daļa')->first()->id,
+//                'parent_goal_id' => 1
+//            ],[
+//                'name' => 'Nodrošināt darbinieku labbūtību',
+//                'description' => '',
+//                'complete_level_id' => 1,
+//                'entity_id' => Entity::where('name', '=', 'IT daļa')->first()->id,
+//                'parent_goal_id' => 1
+//            ],[
+//                'name' => 'Izpildīt darbinieku priekšlikumus',
+//                'description' => '',
+//                'complete_level_id' => 1,
+//                'entity_id' => Entity::where('name', '=', 'IT daļa')->first()->id,
+//                'parent_goal_id' => 1
+//            ],[
+//                'name' => 'Piesaistīt 3 jaunus speciālistus',
+//                'description' => '',
+//                'complete_level_id' => 1,
+//                'entity_id' => Entity::where('name', '=', 'IT daļa')->first()->id,
+//                'parent_goal_id' => 1
+//            ],[
+//                'name' => 'Celt darbinieku kvalifikāciju',
+//                'description' => '',
+//                'complete_level_id' => 1,
+//                'entity_id' => Entity::where('name', '=', 'Finanšu pārvalde')->first()->id,
+//                'parent_goal_id' => 1
+//            ],[
+//                'name' => 'Doties 3 pieredzes apmaiņas braucienos',
+//                'description' => '',
+//                'complete_level_id' => 1,
+//                'entity_id' => Entity::where('name', '=', 'Finanšu pārvalde')->first()->id,
+//                'parent_goal_id' => 1
+//            ],[
+//                'name' => 'Celt darbinieku kvalifikāciju',
+//                'description' => '',
+//                'complete_level_id' => 1,
+//                'entity_id' => Entity::where('name', '=', 'Personāla daļa')->first()->id,
+//                'parent_goal_id' => 1
+//            ],[
+//                'name' => 'Celt darbinieku kvalifikāciju',
+//                'description' => '',
+//                'complete_level_id' => 1,
+//                'entity_id' => Entity::where('name', '=', 'IT daļa')->first()->id,
+//                'parent_goal_id' => 1
+//            ],[
+//                'name' => 'Celt darbinieku kvalifikāciju',
+//                'description' => '',
+//                'complete_level_id' => 1,
+//                'entity_id' => Entity::where('name', '=', 'Juridiskā daļa')->first()->id,
+//                'parent_goal_id' => 1
+//            ],[
+//                'name' => 'Celt darbinieku kvalifikāciju',
+//                'description' => '',
+//                'complete_level_id' => 1,
+//                'entity_id' => Entity::where('name', '=', 'Publisko iepirkumu daļa')->first()->id,
+//                'parent_goal_id' => 1
+//            ],[
+//                'name' => 'Celt darbinieku kvalifikāciju',
+//                'description' => '',
+//                'complete_level_id' => 1,
+//                'entity_id' => Entity::where('name', '=', 'Liepājas pārstāvniecība Rīgā')->first()->id,
+//                'parent_goal_id' => 1
+//            ],
         ]);
 
 //        for ($i = 1; $i < 10; $i++) {

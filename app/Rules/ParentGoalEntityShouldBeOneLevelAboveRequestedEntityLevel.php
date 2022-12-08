@@ -59,6 +59,6 @@ class ParentGoalEntityShouldBeOneLevelAboveRequestedEntityLevel implements Rule
      */
     public function message()
     {
-        return 'Šis mērķa īpašnieks (struktūrvienība / darbinieks) nav kombinējams ar šo virsmērķi.';
+        return 'Šis mērķa īpašnieks (vienība / darbinieks) nav kombinējams ar šo virsmērķi.';
     }
 }

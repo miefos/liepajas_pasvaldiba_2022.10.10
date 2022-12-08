@@ -107,7 +107,7 @@ export default {
             {type: 'textarea', name: 'comment', header: 'Komentārs', sortable: true, searchable: true, hideInTable: true},
             {type: 'dropdown', name: 'parent_goal_id', label: 'name',  listing: 'goals', value: 'id', header: 'Virsmērķis', sortable: true},
             {type: 'dropdown', name: 'complete_level_id', label: 'name',  listing: 'completeLevels', value: 'id', header: 'Izpilde', sortable: true, required: true},
-            {type: 'dropdown', name: 'entity_id', label: 'name',  listing: 'entities', value: 'id', header: 'Struktūrvienība', sortable: true},
+            {type: 'dropdown', name: 'entity_id', label: 'name',  listing: 'entities', value: 'id', header: 'Vienība', sortable: true},
             {type: 'dropdown', name: 'user_id', label: 'name',  listing: 'users', value: 'id', header: 'Darbinieks', sortable: true},
         ]
 

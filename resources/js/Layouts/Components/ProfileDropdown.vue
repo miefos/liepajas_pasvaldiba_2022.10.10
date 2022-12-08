@@ -20,7 +20,7 @@
                     <span class="sr-only">Open user menu for </span>
                     <span class="hidden ml-3 lg:block">
                         <div class="font-semibold">{{ $page.props.user.name }}</div>
-                        <div><span class="sr-only">Role</span>{{ getRoles }}</div>
+                        <div v-if="$page.props.user.entity"><span class="sr-only">Role</span> {{ $page.props.user.entity.name }}: {{ $page.props.user.entity_is_supervisor ? "Vaditājs" : "Darbinieks" }}</div>
                     </span>
                     <ChevronDownIcon class="hidden flex-shrink-0 ml-1 h-5 w-5 text-gray-400 lg:block"
                                      aria-hidden="true"/>
@@ -37,8 +37,11 @@
                         <p class="text-sm">
                             Ienācis kā
                         </p>
-                        <p class="text-sm font-medium text-gray-900 truncate">
+                        <p class="text-sm font-medium text-gray-900">
                             {{ $page.props.user.email }}
+                        </p>
+                        <p class="text-sm font-medium text-gray-900">
+                            Loma: {{ getRoles }}
                         </p>
                     </div>
                     <MenuItem v-slot="{ active }">

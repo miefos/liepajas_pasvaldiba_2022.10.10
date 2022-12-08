@@ -23,10 +23,11 @@ class DatabaseSeeder extends Seeder
             RolesTableSeeder::class,
             PermissionRoleTableSeeder::class,
             RoleUserTableSeeder::class,
+
             EntityLevelsTableSeeder::class,
             CompleteLevelsTableSeeder::class,
             EntitiesTableSeeder::class,
-            UserTableSeeder::class,
+//            UserTableSeeder::class,
             GoalsTableSeeder::class,
         ]);
 

@@ -34,6 +34,10 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin', 'middleware' => ['aut
         return redirect()->route('goals.index');
     })->name('home');
 
+    // Tasks
+    Route::delete('tasks/destroy', 'TasksController@massDestroy')->name('tasks.massDestroy');
+    Route::apiResource('tasks', 'TasksController');
+
     // Entities
     Route::delete('entities/destroy', 'EntitiesController@massDestroy')->name('entities.massDestroy');
     Route::apiResource('entities', 'EntitiesController');

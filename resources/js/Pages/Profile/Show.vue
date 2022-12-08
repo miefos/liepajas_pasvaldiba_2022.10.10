@@ -15,6 +15,18 @@
                     <jet-section-border />
                 </div>
 
+                <div v-if="$page.props.user.entity_is_supervisor">
+                    Manā komandā strādā:
+                    <ul>
+                        <template v-for="(name, id, idx) in $page.props.user.directly_supervised">
+                            <li v-if="id != $page.props.user.id">
+                                {{ idx }}. {{ name }}
+                            </li>
+                        </template>
+                    </ul>
+                    <jet-section-border />
+                </div>
+
                 <div v-if="$page.props.jetstream.canUpdatePassword">
                     <update-password-form class="mt-10 sm:mt-0" />
 
@@ -42,6 +54,7 @@
 <script>
     import { defineComponent } from 'vue'
     import AppLayout from '@/Layouts/AppLayout.vue'
+    import JetFormSection from '@/Jetstream/FormSection.vue'
     import DeleteUserForm from '@/Pages/Profile/Partials/DeleteUserForm.vue'
     import JetSectionBorder from '@/Jetstream/SectionBorder.vue'
     import LogoutOtherBrowserSessionsForm from '@/Pages/Profile/Partials/LogoutOtherBrowserSessionsForm.vue'
@@ -56,6 +69,7 @@
             AppLayout,
             DeleteUserForm,
             JetSectionBorder,
+            JetFormSection,
             LogoutOtherBrowserSessionsForm,
             TwoFactorAuthenticationForm,
             UpdatePasswordForm,

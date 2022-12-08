@@ -61,7 +61,7 @@ class GoalsController extends Controller
           'entities' => $entities,
           'users' => $users,
           'entitiesAndUsersGrouped' => [[
-              'label' => 'Struktūrvienības',
+              'label' => 'Vienības',
               'items' => $entities->filter(function ($ent) {
                   return GoalService::creatableByCurrentUser(null, $ent->id);
               })->map(function ($ent) {

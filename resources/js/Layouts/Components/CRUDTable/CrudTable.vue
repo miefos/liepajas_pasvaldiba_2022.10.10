@@ -101,7 +101,7 @@
                             </template>
 
                             <template v-else-if="column.type === 'date'" #body="slotProps">
-        <!--                        slotProps.data[column.name]-->
+<!--                                {{ slotProps.data[column.name] }}-->
                                 <Calendar style="width:170px;" dateFormat="dd.mm.yy"  :model-value="getSlotPropsVal(slotProps, column.name)" :disabled="true" />
                             </template>
 
@@ -170,7 +170,11 @@
                             <InputText :name="column.name" v-if="column.type === 'text'" :id="'create-' + column.name" v-model.trim="createForm[column.name]" :required="column.required" autofocus :class="{'p-invalid': createForm.errors[column.name]}" />
                             <Textarea :name="column.name" v-else-if="column.type === 'textarea'" :id="'create-' + column.name" v-model.trim="createForm[column.name]" :required="column.required" autofocus :class="{'p-invalid': createForm.errors[column.name]}" />
                             <Dropdown :name="column.name" v-else-if="column.type === 'dropdown'" :id="'create-' + column.name" v-model="createForm[column.name]" :options="[{[column.label]: '-', [column.value]: null}, ...listings[column.listing]]" :optionLabel="column.label" :optionValue="column.value" />
-                            <Calendar :name="column.name" v-else-if="column.type === 'date'" :id="'create-' + column.name" v-model="createForm[column.name]" :class="{'p-invalid': createForm.errors[column.name]}" />
+                            <flat-pickr
+                            v-else-if="column.type === 'date'"
+                            :config="{disableMobile: true}"
+                            class="w-full border-gray-300"
+                            :name="column.name" :id="'create-' + column.name" v-model="createForm[column.name]" :class="{'p-invalid': createForm.errors[column.name]}" />
                             <MultiSelect :name="column.name" v-else-if="column.type === 'multiselect'" :id="'create-' + column.name" v-model="createForm[column.name]" :options="listings[column.listing]" :optionLabel="column.label" :optionValue="column.value" :filter="true"/>
                             <div v-else>Unrecognized field.</div>
 
@@ -201,7 +205,12 @@
                             <InputText :disabled="viewOnly" :name="column.name" v-if="column.type === 'text'" :id="'edit-' + column.name" v-model.trim="editForm[column.name]" :required="column.required" autofocus :class="{'p-invalid': editForm.errors[column.name]}" />
                             <Textarea :disabled="viewOnly" :name="column.name" v-else-if="column.type === 'textarea'" :id="'edit-' + column.name" v-model.trim="editForm[column.name]" :required="column.required" autofocus :class="{'p-invalid': editForm.errors[column.name]}" />
                             <Dropdown :disabled="viewOnly" :name="column.name" v-else-if="column.type === 'dropdown'" :id="'edit-' + column.name" v-model="editForm[column.name]" :options="[{name: '-', id: null}, ...listings[column.listing]]" :optionLabel="column.label" :optionValue="column.value" :class="{'p-invalid': editForm.errors[column.name]}" />
-                            <Calendar :disabled="viewOnly" :name="column.name" v-else-if="column.type === 'date'" :id="'edit-' + column.name" v-model="editForm[column.name]" :class="{'p-invalid': editForm.errors[column.name]}" />
+                            <flat-pickr
+                            :disabled="viewOnly"
+                            v-else-if="column.type === 'date'"
+                            :config="{disableMobile: true}"
+                            class="w-full border-gray-300"
+                            :name="column.name" :id="'edit-' + column.name" v-model="editForm[column.name]" :class="{'p-invalid': editForm.errors[column.name]}" />
                             <MultiSelect :disabled="viewOnly" :name="column.name" v-else-if="column.type === 'multiselect'" :id="'edit-' + column.name" v-model="editForm[column.name]" :options="listings[column.listing]" :optionLabel="column.label" :optionValue="column.value" :filter="true"/>
                             <div v-else>Unrecognized field.</div>
 
@@ -244,6 +253,9 @@ import {useForm, usePage} from '@inertiajs/inertia-vue3'
 import { useConfirm } from "primevue/useconfirm";
 import { Link } from '@inertiajs/inertia-vue3';
 import ValidationErrors from "@/Jetstream/ValidationErrors.vue";
+
+import flatPickr from 'vue-flatpickr-component';
+import 'flatpickr/dist/flatpickr.css';
 
 export default {
     props: {
@@ -329,7 +341,7 @@ export default {
         MultiSelect,
         Calendar,
         Link,
-
+        flatPickr
     },
     name: "CrudTable",
     data() {
