@@ -2,12 +2,22 @@
 
 namespace App\Services;
 
+use App\Models\Entity;
 use App\Models\EntityLevel;
+use App\Models\Goal;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class GoalService {
+    public static function isFirstLevelGoal(Goal $goal) {
+        if (!($rootEntity = Entity::where('is_root_node', '=', 1)->first())) {
+            dd("Nav uzstādīta organizācija kā root");
+        }
+
+        return $rootEntity->id === $goal->entity_id;
+    }
+
     public static function creatableByCurrentUser($user_id, $entity_id) {
         $user_id = intval($user_id);
         $entity_id = intval($entity_id);

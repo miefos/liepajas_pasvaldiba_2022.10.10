@@ -29,7 +29,11 @@ class EntitiesController extends Controller
             'subEntities.subEntities.supervisor',
             'subEntities.subEntities.subEntities.supervisor',
             'subEntities.subEntities.subEntities'
-        ])->where('is_root_node', '=', 1)->firstOrFail());
+        ])->where('is_root_node', '=', 1)->first());
+
+        if ($entitiesHierarchical->resource === null) {
+            $entitiesHierarchical = null;
+        }
 
         $users = User::all();
         $usersWithEntityAssigned = User::whereNotNull('entity_id')->get();
@@ -38,6 +42,10 @@ class EntitiesController extends Controller
             'entities' => $entities,
             'entityLevels' => EntityLevel::all(),
             'users' => $users,
+            'booleanYesNo' => [
+                ['value' => 0, 'name' => 'Nē'],
+                ['value' => 1, 'name' => 'Jā'],
+            ]
         ];
 
 //        $entitiesWithUsers = [...$entities, ...$usersWithEntityAssigned];

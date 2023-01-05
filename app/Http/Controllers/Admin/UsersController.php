@@ -6,14 +6,12 @@ use App\Actions\Fortify\PasswordValidationRules;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\InviteUserRequest;
 use App\Http\Requests\MassDestroyUserRequest;
-use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Mail\RegistrationInvitationMail;
 use App\Models\Entity;
 use App\Models\User;
 use App\Models\UserInvitation;
 use Carbon\Carbon;
-use http\Env\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -49,7 +47,7 @@ class UsersController extends Controller
     }
 
     /**
-        Invite valid for 24h
+        Invite valid for a week
         email prefilled
         roles prefilled
      */
@@ -57,16 +55,21 @@ class UsersController extends Controller
     {
         $userInvitation = new UserInvitation();
         $userInvitation->email = $request->input('email');
-        $userInvitation->expire_at = Carbon::now()->addDay();
+        $userInvitation->expire_at = Carbon::now()->addWeek();
         $userInvitation->assignNewToken();
         $userInvitation->syncRoles($request->input('roles', []));
         $userInvitation->entity_id = intval($request->input('entity_id'));
 
         $userInvitation->save();
 
-        Mail::to($userInvitation->email)->send(new RegistrationInvitationMail($userInvitation->invitation_token));
+//        Mail::to($userInvitation->email)->send(new RegistrationInvitationMail($userInvitation->invitation_token));
 
-        return back()->success('Ielūgums nosūtīts');
+        return back()->persistent(
+            [
+                "Ielūgums izveidots veiksmīgi, reģistrācijas saite (derīga 1 nedēļu)" =>
+                $userInvitation->getRegistrationUrl()
+            ]
+        );
     }
 
     /**

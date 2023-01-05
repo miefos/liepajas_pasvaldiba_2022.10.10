@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\URL;
 use Spatie\Permission\Traits\HasRoles;
 
 class UserInvitation extends Model
@@ -24,6 +25,11 @@ class UserInvitation extends Model
     public function assignNewToken()
     {
         $this->attributes['invitation_token'] = substr(md5(rand(0, 9) . $this->attributes['email'] . time()), 0, 32);
+    }
+
+    public function getRegistrationUrl()
+    {
+        return route('register.create', ['token' => $this->invitation_token]);
     }
 
     private function correctTokenFormat($token): bool

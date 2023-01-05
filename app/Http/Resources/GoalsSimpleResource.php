@@ -28,6 +28,7 @@ class GoalsSimpleResource extends JsonResource
             'editable' => $this->editableByCurrentUser(),
             'audits' => $this->audits,
             'approved' => $this->approved,
+            'should_be_bold' => $this->shouldBeBold(),
         ];
     }
 }

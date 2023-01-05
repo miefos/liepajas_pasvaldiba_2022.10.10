@@ -19,24 +19,13 @@ class EntitiesForTableResource extends JsonResource
      */
     public function toArray($request)
     {
-        if ($this->resource instanceof User) {
-            $entity = Entity::findOrFail($this->entity_id);
-
-            return [
-                'id' => $this->id,
-                'name' => $this->name,
-                'parent_entity_id' => $this->entity_id,
-                'entity_level_id' => EntityLevel::where('employee_level', '=', 1)->firstOrFail()->id ?? null,
-                'supervisor_id' => $entity->supervisor_id,
-            ];
-        } else { // Entity
-            return [
-                'id' => $this->id,
-                'name' => $this->name,
-                'parent_entity_id' => $this->parent_entity_id,
-                'entity_level_id' => $this->entity_level_id,
-                'supervisor_id' => $this->supervisor_id
-            ];
-        }
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'parent_entity_id' => $this->parent_entity_id,
+            'entity_level_id' => $this->entity_level_id,
+            'supervisor_id' => $this->supervisor_id,
+            'is_root_node' => $this->is_root_node,
+        ];
     }
 }

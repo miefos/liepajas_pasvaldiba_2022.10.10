@@ -1,6 +1,6 @@
 <template>
     <app-layout>
-        <organization-chart :value="entitiesHierarchical" key="id">
+        <organization-chart v-if="entitiesHierarchical" :value="entitiesHierarchical" key="id">
             <template #default="slotProps">
                 <div class="space-y-4">
                     <div>{{ slotProps.node.data.name }}</div>
@@ -11,6 +11,9 @@
                 </div>
             </template>
         </organization-chart>
+        <div v-else>
+            Nevar parādīt hierarhiju. Iespējams tāpēc, ka nav uzstādīta sākotnējā organizācija.
+        </div>
         <crud-table
             :tableData="entities"
             :listings="listings"
@@ -57,6 +60,7 @@ export default {
             {type: 'dropdown', name: 'parent_entity_id', label: 'name',  listing: 'entities', value: 'id', header: 'Virsvienība', sortable: true},
             {type: 'dropdown', name: 'entity_level_id', label: 'name',  listing: 'entityLevels', value: 'id', header: 'Līmenis', sortable: true},
             {type: 'dropdown', name: 'supervisor_id', label: 'name',  listing: 'users', value: 'id', header: 'Vienības vadītājs', sortable: true},
+            {type: 'dropdown', name: 'is_root_node', label: 'name', listing: 'booleanYesNo', value: 'value', header: 'Sākotnējā organizācija'}, // boolean option
         ]
 
         return {

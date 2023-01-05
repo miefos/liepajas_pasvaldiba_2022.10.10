@@ -58,6 +58,11 @@ class Goal extends Model implements Auditable
         return (int) $this->attributes['approved'];
     }
 
+    public function shouldBeBold()
+    {
+        return GoalService::isFirstLevelGoal($this);
+    }
+
     protected static function booted() {
         static::addGlobalScope('authorizeGoal', function (Builder $builder) {
             return GoalService::authorizeAccessingGoal($builder);

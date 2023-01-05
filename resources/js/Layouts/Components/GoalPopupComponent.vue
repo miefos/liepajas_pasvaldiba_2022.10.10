@@ -157,7 +157,7 @@
                                 <div class="flow-root">
                                     <ul role="list" class="-mb-8">
                                         <li v-for="(auditChange, auditChangeIdx) in auditsProp" :key="auditChange.id">
-                                            <div class="relative pb-8">
+                                            <div class="relative pb-8" v-if="auditChange.old_values.complete_level_id != undefined || auditChange.old_values.approved != undefined">
                                                 <span v-if="auditChangeIdx !== auditsProp.length - 1" class="absolute top-3 left-3 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true" />
                                                 <div class="relative flex space-x-3">
                                                     <div>

@@ -118,7 +118,7 @@
                             </template>
 
                             <template v-else #body="slotProps">
-                                <span v-if="typeof slotProps.data[column.name] == 'string'" v-tooltip.top="column.showFullTextOnTooltip ? slotProps.data[column.name] : ''">
+                                <span :class="{'font-bold': slotProps.data['should_be_bold']}" v-if="typeof slotProps.data[column.name] == 'string'" v-tooltip.top="column.showFullTextOnTooltip ? slotProps.data[column.name] : ''">
                                     {{ slotProps.data[column.name].substring(0,40) }}{{ slotProps.data[column.name].length > 40 ? '...' : '' }}
                                 </span>
                             </template>
