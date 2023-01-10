@@ -12,6 +12,7 @@ use App\Models\Entity;
 use App\Models\User;
 use App\Models\UserInvitation;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -168,5 +169,24 @@ class UsersController extends Controller
         $users->delete();
 
         return back()->success(__('common.success.massDeleted'));
+    }
+
+    public function setPassword(Request $request) {
+        abort_if(Gate::denies('user_update'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $data = $request->validate([
+            'password' => $this->passwordRules(),
+            'users.*' => ['required', 'exists:users,id']
+        ]);
+
+        $newPassword = $data['password'];
+
+        collect($data['users'])->each(function ($userId) use ($newPassword) {
+            $userModel = User::findOrFail($userId);
+            $userModel->password = Hash::make($newPassword);
+            $userModel->save();
+        });
+
+        return back()->success(__('common.success.massPasswordsUpdated'));
     }
 }

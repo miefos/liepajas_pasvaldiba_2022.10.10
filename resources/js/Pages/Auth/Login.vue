@@ -35,20 +35,20 @@
                         </div>
                     </div>
 
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center">
-                            <input id="remember-me" name="remember-me" type="checkbox" v-model="form.remember" class="h-4 w-4 text-sky-600 focus:ring-0 border-gray-300 rounded" />
-                            <label for="remember-me" class="ml-2 block text-sm text-gray-900">
-                                Atcerēties mani
-                            </label>
-                        </div>
+<!--                    <div class="flex items-center justify-between">-->
+<!--                        <div class="flex items-center">-->
+<!--                            <input id="remember-me" name="remember-me" type="checkbox" v-model="form.remember" class="h-4 w-4 text-sky-600 focus:ring-0 border-gray-300 rounded" />-->
+<!--                            <label for="remember-me" class="ml-2 block text-sm text-gray-900">-->
+<!--                                Atcerēties mani-->
+<!--                            </label>-->
+<!--                        </div>-->
 
-                        <div class="text-sm">
-                            <a v-if="canResetPassword" href="/forgot-password" class="font-medium text-sky-600 hover:text-sky-500">
-                                Aizmirsi paroli?
-                            </a>
-                        </div>
-                    </div>
+<!--                        <div class="text-sm">-->
+<!--                            <a v-if="canResetPassword" href="/forgot-password" class="font-medium text-sky-600 hover:text-sky-500">-->
+<!--                                Aizmirsi paroli?-->
+<!--                            </a>-->
+<!--                        </div>-->
+<!--                    </div>-->
 
                     <div>
                         <button type="submit" :class="{ 'opacity-25': form.processing }" :disabled="form.processing"

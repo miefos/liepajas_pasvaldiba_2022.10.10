@@ -10,6 +10,7 @@ return [
     'massDeleted' => 'Izdzēsts masveidā',
     'added' => 'Pievienots',
     'massAccepted' => 'Atzīmētie mērķi ir akceptēti!',
+    'massPasswordsUpdated' => 'Atzīmētajiem lietotājiem tika atjaunota norādītā parole!',
   ],
   'error' => [
       'inGeneral' => 'Notika kļūda',

@@ -66,39 +66,5 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin', 'middleware' => ['aut
     Route::delete('users/destroy', 'UsersController@massDestroy')->name('users.massDestroy');
     Route::post('invite', 'UsersController@invite')->name('users.invite');
     Route::apiResource('users', 'UsersController');
-
-    // files
-    Route::get('files/{disk}/{file}', function($requestedDiskName, $img) {
-        $disks = [
-            'products' => Storage::disk('products_images'),
-            'qr' => Storage::disk('qr'),
-        ];
-
-        if (array_key_exists($requestedDiskName, $disks))
-            $disk = $disks[$requestedDiskName];
-        else
-            abort(404);
-
-        if ($disk->exists($img) && !is_dir($disk->path($img)))
-            return response()->file($disk->path($img));
-
-        abort(404);
-    })->where('file', '.*');
-
-    Route::post('/notifications/read/{id}', function($notifId) {
-        if ($notifId === 'all') {
-            auth()->user()->unreadNotifications->markAsRead();
-            return back();
-        }
-
-        $notif = auth()->user()->notifications()->findOrFail($notifId);
-
-        if ($notif->read_at) {
-            $notif->markAsUnread();
-        } else {
-            $notif->markAsRead();
-        }
-
-        return back();
-    })->name('notifications.read');
+    Route::post('/users/restore_password', 'UsersController@setPassword')->name('users.setPasswords');
 });

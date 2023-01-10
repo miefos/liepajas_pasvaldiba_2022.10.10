@@ -26,8 +26,6 @@
 <!--        </organization-chart>-->
         </div>
         <crud-table
-            :extra-button-available="$page.props.user.is_supervisor_somewhere"
-            extra-button-label="Apstiprināt atzīmētos"
             :show-header="false"
             :tableData="goals"
             :listings="listings"
@@ -38,6 +36,8 @@
             :route-names="routesName"
             :requireEditPermissionPerRow="true"
             ref="dtgoals"
+            :extra-button-available="$page.props.user.is_supervisor_somewhere"
+            extra-button-label="Apstiprināt atzīmētos"
             @extra-button-clicked="acceptGoals"
         >
             <template #createDialogContent="{columns, createForm, listings}">

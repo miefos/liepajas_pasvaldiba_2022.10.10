@@ -38,21 +38,19 @@ class HandleInertiaRequests extends Middleware
     {
         $added_array = [];
 
-
         if ($user = auth()->user()) {
             $added_array['user.can'] = $user->getAllPermissions()->pluck('name');
             $added_array['user.entity'] = $user->load('entity')->entity;
             $added_array['user.entity_is_supervisor'] = (bool) $user->supervisedEntities()->pluck('id')->contains(intval($user->entity_id));
             $added_array['user.directly_supervised'] = $user->directlySupervisedEmployees()->get()->pluck('name', 'id');
             $added_array['user.is_supervisor_somewhere'] = (bool) $user->supervisedEntities()->count();
+
+            $added_array['flash'] = [
+                'message' => fn () => $request->session()->get('message')
+            ];
+
+            $added_array['app']['name'] = config('app.name');
         }
-
-        $added_array['flash'] = [
-            'message' => fn () => $request->session()->get('message')
-        ];
-
-        $added_array['app']['name'] = config('app.name');
-
 
         return array_merge(parent::share($request), $added_array);
     }
