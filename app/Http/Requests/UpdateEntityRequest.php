@@ -34,7 +34,7 @@ class UpdateEntityRequest extends FormRequest
             'is_root_node' => [ // this makes sure that there exists only one row with `is_root_node` set to true (1).
                 Rule::unique('entities', 'is_root_node')
                     ->where(static function ($query) {
-                        return $query->where('is_root_node', '!=', 0);
+                        return $query->where('is_root_node', '!=', 0)->where('id', '!=', request()->route('entity')->id);
                     })
             ]
         ];
